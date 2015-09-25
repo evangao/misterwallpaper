@@ -1,0 +1,246 @@
+<?php 
+	// $cropImage = Mage::registry('cropImage');
+	// $orignalImage = Mage::registry('orginalImage');
+	//$cropImage = $this->getRequest()->getParam('cropImage');
+	//$orignalImage = $this->getRequest()->getParam('orginalImage');smallImage
+
+	$cropImage = Mage::getSingleton('core/session')->getCropImage();
+	$orignalImage = Mage::getSingleton('core/session')->getOrginalImage();
+	
+	$imageName = explode("/",$cropImage);
+	$image = end($imageName);
+	$_imageUrl = Mage::getBaseDir('media')."/wallpaperImages/images/".$image;
+	$imageResized = Mage::getBaseDir('media')."/wallpaperImages".DS."resized".DS."smallImage".DS.$image;
+	if (!file_exists($imageResized)&&file_exists($_imageUrl)) :
+	    $imageObj = new Varien_Image($_imageUrl);
+	    $imageObj->constrainOnly(TRUE);
+	    $imageObj->keepAspectRatio(FALSE);
+	    $imageObj->keepFrame(FALSE);
+	    $imageObj->resize(300, 300);
+	    $imageObj->save($imageResized);
+	endif;
+     $wallpaperThumb = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)."wallpaperImages".DS."resized".DS."smallImage".DS.$image;
+	 //echo $cropImage->getWidth();
+	// echo $cropImage->getHeight();
+?>
+	<?php
+	     //preview of image size calculation
+	     $sizeImage 	= getimagesize($cropImage);
+	    $previewHeight  = $sizeImage[1]/10; 
+	    $previewWidth   = $sizeImage[0]/10; 
+	?>
+<?php 
+
+$_helper = $this->helper('catalog/output');
+$_product = Mage::getModel('catalog/product')->load(1); ?>
+<div id="messages_product_view"></div>
+<div class="product-view">
+    <div class="product-essential">
+        <div class="product-shop">
+            <div class="product-name">
+                <h1><?php echo $_product->getName();?></h1>
+            </div>
+
+               
+	    <?php 
+	
+		$productOptionsPrice = $_product->getOptions();
+		$CustomPrice="0";
+		foreach($productOptionsPrice as $optionKey => $optionVal)
+		{
+		    foreach($optionVal->getValues() as $valuesKey => $valuesVal) {
+			if($valuesVal->getTitle()==$this->getRequest()->getParam('size')){
+	
+				$CustomPrice = $valuesVal->getPrice();
+			}
+		    }
+		}
+		$price = Mage::helper('core')->currency((float)$CustomPrice+(float)$_product->getPrice(),true,false);
+		if($this->getRequest()->getParam('size')=='custom'){
+		    $price = Mage::helper('core')->currency((float)Mage::getSingleton('core/session')->getCustomPrice()+(float)$_product->getPrice(),true,false);
+		}
+	    
+	    ?>
+	    <div class="price-box">
+		<span class="regular-price" id="product-price-1">
+		<span class="price"><?php echo $price;?></span></span>
+            </div>       
+        </div>
+	<form id="product_addtocart_form" enctype="multipart/form-data" method="post" action="<?php echo Mage::getBaseUrl();?>checkout/cart/add/uenc/aHR0cDovL213cGFwZXIucGhwLWRldi5pbi9pbmRleC5waHAvcGhvdG8td2FsbHBhcGVyL21pc3Rlci13YWxscGFwZXIuaHRtbA,,/product/1/">
+	    <div class="no-display">
+		<input type="hidden" name="product" value="1" />
+		<input type="hidden" name="related_product" id="related-products-field" value="" />
+	    </div>
+	    <?php 
+		$product = Mage::getModel('catalog/product')->load(1);
+		$productOptions = $product->getOptions();
+		$optStr="";
+		$optionTitle ="";
+		foreach($productOptions as $optionKey => $optionVal) {	     
+		    if($optionVal->getId()!=1){ continue;}
+		    //$optStr .= "<br/>";		 
+		    //$optStr .= $optionVal->getTitle().": ";		 
+		   $optStr .= "<input type='hidden'  name='options[".$optionVal->getId()."]'";		 
+		    foreach($optionVal->getValues() as $valuesKey => $valuesVal) {
+			if($valuesVal->getTitle()==$this->getRequest()->getParam('size')){
+			    
+				$optStr.= "value='".$valuesVal->getId()."'>";
+				
+				$optionTitle = $valuesVal->getTitle();	    
+			}
+		    }
+		     
+		    $optStr .= "</select>";
+		 
+		}
+	
+	    ?>
+	    <input id="options_2_text" value="<?php echo $cropImage;?>" type="hidden"  name="options[2]">    
+	    <input id="options_4_text"  type="hidden" value="<?php echo $orignalImage;?>" name="options[4]" />
+	    <input id="options_3_text"  type="hidden" value="<?php if($this->getRequest()->getParam('size')=='custom'){ echo $this->getRequest()->getParam('imageWidth').' x '.$this->getRequest()->getParam('imageHeight'); }?>" name="options[3]">
+	    <?php if($cropImage!=""):?>
+		<div class="clearer"></div>
+		<div class="product-options" id="product-options-wrapper">
+		    <dl>                               
+			<dt><label class="required">size</label></dt>
+			<dd class="last">
+			    <div class="input-box">
+				<?php echo($optStr );?>
+				<input type="text" name="wallpaersize" id="wallpaersize" value="
+				<?php 
+				if(trim($optionTitle)=="custom"){ 
+					echo $this->getRequest()->getParam('imageWidth')." x ".$this->getRequest()->getParam('imageHeight');
+				}else{
+					 echo trim($optionTitle);
+				 } 
+				?>" />
+			    </div>
+			</dd>
+		    </dl>
+		</div>
+	    <?php endif;?>
+    
+	    <script type="text/javascript">decorateGeneric($$('#product-options-wrapper dl'), ['last']);</script>
+	    <div class="product-options-bottom">
+		<?php if($cropImage!=""):?>
+		<div class="add-to-cart">
+		    <label for="qty">Qty:</label>
+		    <input type="text" name="qty" id="qty" maxlength="12" value="1" title="Qty" class="input-text qty" />
+		    <button type="button" title="Add to Cart" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><span><span>Add to Cart</span></span>
+		    </button>
+		</div>
+		<?php endif;?>
+		<br />
+	    </div>
+	</form>
+
+	<div class="corp-wallpaper">
+	    <!--<span> Preview </span></br>-->
+	    <?php if($cropImage==""):?>
+	    <div class="preview_img_box">
+		<div class="preview-image">
+		    <img src = "<?php echo $cropImage;?>" alt="No Preview Available" height="200" width="200" />		
+		</div>
+	    </div>    
+	    <?php else:?>
+	    <div class="preview_img_box">
+		<div class="preview-image1">    
+		    <img src = "<?php echo $wallpaperThumb;?>" height="<?php echo $previewHeight; ?>px" width="<?php echo $previewWidth; ?>px"/>
+		</div>
+	    
+		<form action="<?php echo Mage::getBaseUrl()?>orderprocess/index/crop" method="POST" name="orderForm" id="orderForm" enctype="multipart/form-data">
+		    <input type="hidden" name="galleryImage" id="galleryImage" value="<?php echo $orignalImage;?>">
+		    <input type="hidden" name="size"  value="<?php echo $this->getRequest()->getParam('size')?>">
+    
+		    <input class="order-input" type="hidden" name="width" <?php if($this->getRequest()->getParam('size')=='custom'){ ?> value="<?php echo $this->getRequest()->getParam('imageWidth');?>" <?php } ?>>
+		    <input class="order-input" type="hidden"  name="height" <?php if($this->getRequest()->getParam('size')=='custom'){ ?> value="<?php echo $this->getRequest()->getParam('imageHeight');?>" <?php } ?>>
+    
+		    <button class="order-button" type="submit" name="submit" value="Upload & Check Picture">Edit Crop</button>
+		    <div class="preview-link-button"><a href="<?php echo $cropImage;?>" target="_blank" class="order-button" >Preview</a> </div>
+		</form>
+	    </div>
+	    <?php echo $this->getChildHtml('orderprocess_superimpose'); ?>
+	    <?php endif;?>
+	</div>
+	
+    <script type="text/javascript">
+    //<![CDATA[
+        var productAddToCartForm = new VarienForm('product_addtocart_form');
+        productAddToCartForm.submit = function(button, url) {
+            if (this.validator.validate()) {
+                var form = this.form;
+                var oldUrl = form.action;
+
+                if (url) {
+                   form.action = url;
+                }
+                var e = null;
+                try {
+                    this.form.submit();
+                } catch (e) {
+                }
+                this.form.action = oldUrl;
+                if (e) {
+                    throw e;
+                }
+
+                if (button && button != 'undefined') {
+                    button.disabled = true;
+                }
+            }
+        }.bind(productAddToCartForm);
+
+        productAddToCartForm.submitLight = function(button, url){
+            if(this.validator) {
+                var nv = Validation.methods;
+                delete Validation.methods['required-entry'];
+                delete Validation.methods['validate-one-required'];
+                delete Validation.methods['validate-one-required-by-name'];
+                // Remove custom datetime validators
+                for (var methodName in Validation.methods) {
+                    if (methodName.match(/^validate-datetime-.*/i)) {
+                        delete Validation.methods[methodName];
+                    }
+                }
+
+                if (this.validator.validate()) {
+                    if (url) {
+                        this.form.action = url;
+                    }
+                    this.form.submit();
+                }
+                Object.extend(Validation.methods, nv);
+            }
+        }.bind(productAddToCartForm);
+    //]]>
+    </script>
+    </div>
+	
+    <div class="product-collateral">
+        <div class="box-collateral box-description">
+            <h2>Product Description</h2>
+	    <div class="std">
+	       <?php echo $_helper->productAttribute($_product, nl2br($_product->getDescription()), 'description') ?>
+	    </div>
+        </div>
+    </div>
+</div>
+<!-- Google Code for Sales Conversion Page -->
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 988935318;
+var google_conversion_language = "en";
+var google_conversion_format = "2";
+var google_conversion_color = "ffffff";
+var google_conversion_label = "q3xoCKLazAcQlunH1wM";
+var google_conversion_value = 0;
+var google_remarketing_only = false;
+/* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/988935318/?value=0&amp;label=q3xoCKLazAcQlunH1wM&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>

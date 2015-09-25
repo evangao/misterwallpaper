@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <gallery_adminhtml_gallerybackend_index>
+	<reference name="content">
+	  <block type="gallery/adminhtml_gallerybackend" name="gallerybackend" template="gallery/gallerybackend.phtml"/>
+	</reference>
+  </gallery_adminhtml_gallerybackend_index>
+  <gallery_adminhtml_image_index>
+	<reference name="content">
+	  <block type="gallery/adminhtml_image" name="image" />
+	</reference>
+  </gallery_adminhtml_image_index>
+  <gallery_adminhtml_category_index>
+	<reference name="content">
+	  <block type="gallery/adminhtml_category" name="category" />
+	</reference>
+  </gallery_adminhtml_category_index>
+</layout>

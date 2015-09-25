@@ -1,0 +1,73 @@
+<?php $categoryid = $this->getRequest()->getParam('cat');?>
+
+<?php $images = $this->getImages($categoryid); ?>
+<?php $categoryDetails = Mage::getModel('example/examplecategory')->load($categoryid)?>
+<?php 
+	$imageName = explode("/",$this->getCategoryImages($categoryid));
+	$image = end($imageName);
+	$_imageUrl = Mage::getBaseDir('media')."/example/example/".$image;
+	$imageResized = Mage::getBaseDir('media')."/example".DS."resized".DS."exampleBanner".DS.$image;
+	if (!file_exists($imageResized)&&file_exists($_imageUrl)) :
+	    $imageObj = new Varien_Image($_imageUrl);
+	    $imageObj->constrainOnly(TRUE);
+	    $imageObj->keepAspectRatio(FALSE);
+	    $imageObj->keepFrame(FALSE);
+	    $imageObj->resize(660, 375);
+	    $imageObj->save($imageResized);
+	endif;
+     $ExampleBanner = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)."example".DS."resized".DS."exampleBanner".DS.$image;
+
+?>
+<div class="example_main_img">
+    <img src="<?php echo $ExampleBanner?>" alt="" />
+    <div class="text-content style_External_630_50"><?php echo $categoryDetails->getName()?></div>
+</div>
+
+<div class="Normal">
+    <p class="paragraph_style_example"><?php echo $categoryDetails->getDescription();?></p>
+</div>
+<div class="playSlideShow">
+	
+	<span class="play_slideshow">
+		<a href="javascript:playSlideshow()">
+			
+			<img class="canvas play play-slideshow-img" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN).'frontend/default/mwpaper/images/canvas_play_03.png'?>" alt="play">
+		</a>
+		<a href="javascript:playSlideshow()">Play Slideshow</a>
+	</span>
+</div>
+
+
+<div class="example_gallery">
+	<ul class="display-iamges">
+	<?php foreach($images as $ExmplImage):?>
+		<li>
+			<div class="image exampleThumb">
+			 <a class="group4" href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$ExmplImage->getImage()?>">
+				<?php 
+					$imageName = explode("/",$ExmplImage->getImage());
+					$image = end($imageName);
+					$_imageUrl = Mage::getBaseDir('media')."/example/example/".$image;
+					$imageResized = Mage::getBaseDir('media')."/example".DS."resized".DS."exampleThumb".DS.$image;
+					if (!file_exists($imageResized)&&file_exists($_imageUrl)) :
+					    $imageObj = new Varien_Image($_imageUrl);
+					    $imageObj->constrainOnly(TRUE);
+					    $imageObj->keepAspectRatio(TRUE);
+					    $imageObj->keepFrame(FALSE);
+					    $imageObj->resize(175,175);
+					    $imageObj->save($imageResized);
+					endif;
+				     $ExampleThumb = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)."example".DS."resized".DS."exampleThumb".DS.$image;
+				
+				?>
+			 
+				<img src="<?php echo $ExampleThumb?>"/></a>
+			</div>
+			<div>
+				<span><h3><?php echo $ExmplImage->getName();?><h3></span>				
+			</div>			
+			
+		</li>	
+	<?php endforeach;?>
+	</ul>
+</div>

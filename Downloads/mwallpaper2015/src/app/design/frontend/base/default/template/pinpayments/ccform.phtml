@@ -1,0 +1,137 @@
+<script src="<?php echo $this->getPinJsUrl(); ?>" type="text/javascript"></script>
+<script src="<?php echo $this->getPaymentJsUrl(); ?>" type="text/javascript"></script>
+
+<script type="text/javascript">
+//<![CDATA[
+    Pin.setPublishableKey('<?php echo $this->getPubApiKey(); ?>');
+//]]>
+</script>
+
+
+<?php $_code = $this->getMethodCode() ?>
+<div id="payment_form_<?php echo $_code ?>" style="display:none;">
+    <ul class="form-list">
+        <?php if ($this->canSave()): ?>
+            <?php if ($this->hasCustomerToken()): ?>
+                <li id="<?php echo $_code ?>_cc_type_cvv_div">
+                    <label for="<?php echo $_code ?>_cc_token" class="required"><?php echo $this->__('Use Saved Card?') ?></label>
+                    <div class="input-box">
+                        <div class="v-fix">
+                            <input name="use_saved_card" onChange="$('payment_form_<?php echo $_code ?>_entry').toggle();" checked="checked" type="checkbox" title="<?php echo $this->__('Use Saved Card') ?>" class="input-radio" id="<?php echo $_code ?>_cc_token" value="1" />
+                        </div>
+                        <div id="<?php echo $_code ?>_saved_card_details">
+                            <span id="<?php echo $_code ?>_cc_display_number">
+                                <?php echo $this->getCustomerTokenCard()->display_number; ?>
+                            <span>
+                            <span id="<?php echo $_code ?>_cc_type_display">
+                                <img id="<?php echo $_code ?>_cc_image_saved" src="<?php echo $this->getCCImageUrl(); ?>credit_cards_50_<?php echo $this->getCustomerTokenCard()->scheme; ?>.png" alt="cc_types" id="cc_types_saved"/>
+                                
+                            <span>    
+                        </div>    
+                    </div>
+                </li>
+            <?php endif; ?>
+        <?php endif; ?>
+    </ul>   
+    <ul class="form-list" id="payment_form_<?php echo $_code ?>_entry" style="">   
+        <li>
+            <label for="<?php echo $_code ?>_cc_name" class="required"><em>*</em><?php echo $this->__('Name On Credit Card') ?></label>
+            <div class="input-box">
+                <input type="text" id="<?php echo $_code ?>_cc_name" title="<?php echo $this->__('Name on Credit Card') ?>" class="input-text validate-cc-name required-entry" value="" />
+            </div>
+        </li>
+        <li>
+            <img id="<?php echo $_code ?>_cc_image" src="<?php echo $this->getCCImageUrl(); ?>credit_cards_50.png" alt="cc_types" id="cc_types"/>
+            <label for="<?php echo $_code ?>_cc_number" class="required"><em>*</em><?php echo $this->__('Credit Card Number') ?></label>
+            <div class="input-box">
+                <input onKeyUp="setCardImage(this.value)" type="text" id="<?php echo $_code ?>_cc_number" title="<?php echo $this->__('Credit Card Number') ?>" class="input-text validate-cc-number validate-cc-type" value="" />
+            </div>
+        </li>
+        <li id="<?php echo $_code ?>_cc_type_exp_div">
+            <label for="<?php echo $_code ?>_expiration" class="required"><em>*</em><?php echo $this->__('Expiration Date') ?></label>
+            <div class="input-box">
+                <div class="v-fix">
+                    <select id="<?php echo $_code ?>_expiration" class="month validate-cc-exp required-entry">
+                        <?php $_ccExpMonth = $this->getInfoData('cc_exp_month') ?>
+                        <?php foreach ($this->getCcMonths() as $k => $v): ?>
+                            <option value="<?php echo $k ? $k : '' ?>"<?php if ($k == $_ccExpMonth): ?> selected="selected"<?php endif ?>><?php echo $v ?></option>
+                        <?php endforeach ?>
+                    </select>
+                </div>
+                <div class="v-fix">
+                    <?php $_ccExpYear = $this->getInfoData('cc_exp_year') ?>
+                    <select id="<?php echo $_code ?>_expiration_yr"  class="year required-entry">
+                        <?php foreach ($this->getCcYears() as $k => $v): ?>
+                            <option value="<?php echo $k ? $k : '' ?>"<?php if ($k == $_ccExpYear): ?> selected="selected"<?php endif ?>><?php echo $v ?></option>
+                        <?php endforeach ?>
+                    </select>
+                </div>
+            </div>
+        </li>
+        <li id="<?php echo $_code ?>_cc_type_cvv_div">
+            <label for="<?php echo $_code ?>_cc_cid" class="required"><em>*</em><?php echo $this->__('Card Verification Number') ?></label>
+            <div class="input-box">
+                <div class="v-fix">
+                    <input type="text" title="<?php echo $this->__('Card Verification Number') ?>" class="input-text cvv required-entry validate-cc-cvn" id="<?php echo $_code ?>_cc_cid" value="" />
+                </div>
+                <a href="#" class="cvv-what-is-this"><?php echo $this->__('What is this?') ?></a>
+            </div>
+        </li>
+        <?php if ($this->canSave()): ?>
+            <li id="<?php echo $_code ?>_cc_type_cvv_div">
+                <label for="<?php echo $_code ?>_cc_save" class="required">
+                    <?php $saveText = ($this->hasCustomerToken()?'Update Saved Card?':'Save Card?') ?>
+                    <?php echo $this->__($saveText) ?>
+                </label>
+                <div class="input-box">
+                    <div class="v-fix">
+                        <input type="checkbox" title="<?php echo $this->__('Save this card') ?>" class="input-radio" id="<?php echo $_code ?>_cc_save" value="1" />
+                    </div>
+                    <a href="#" class="save-is-this-secure"><?php echo $this->__('Is this secure?') ?></a>
+                </div>
+            </li>
+        <?php endif; ?>
+    </ul>
+</div>
+<?php if ($this->canSave()): ?>
+    <?php if ($this->hasCustomerToken()): ?>
+        <script type="text/javascript">
+            //<![CDATA[
+            $('payment_form_<?php echo $_code ?>_entry').hide();
+            //]]>
+        </script>
+    <?php endif; ?>
+<?php endif; ?>
+<div class="tool-tip" id="save-tool-tip" style="display:none;">
+    <div class="btn-close"><a href="#" id="save-tool-tip-close" title="<?php echo $this->__('Close') ?>"><?php echo $this->__('Close') ?></a></div>
+    <div class="save-tool-tip-content">
+        <div id="left-image">
+            <img src="<?php echo $this->getSkinUrl('images/pinpayments/secure-card.jpg') ?>" alt="<?php echo $this->__('Secure Credit Card storage') ?>" title="<?php echo $this->__('Secure Credit Card storage') ?>" />
+        </div>    
+        <div id="right-content">
+        <a href="https://pin.net.au" target="_blank"/><img src="<?php echo $this->getSkinUrl('images/pinpayments/pin-payments-logo.png') ?>" alt="<?php echo $this->__('Pin Payments') ?>" title="<?php echo $this->__('Pin Payments') ?>" /></a>
+        <br/><div id="save-tool-top-text">No credit card information is stored on this server. Saved credit card information is held securely by the payment gateway (Pin Payments).
+        </div>
+        </div>
+    </div>
+</div>        
+<script type="text/javascript">
+//<![CDATA[
+    function toggleToolTipIsSecure(event){
+        if($('save-tool-tip')){
+            $('save-tool-tip').setStyle({
+                top: (Event.pointerY(event)-560)+'px'//,
+                //left: (Event.pointerX(event)+100)+'px'
+            })
+            $('save-tool-tip').toggle();
+        }
+        Event.stop(event);
+    }
+    if($('save-tool-tip-close')){
+        Event.observe($('save-tool-tip-close'), 'click', toggleToolTipIsSecure);
+    }
+    $$('.save-is-this-secure').each(function(element){
+            Event.observe(element, 'click', toggleToolTipIsSecure);
+    });
+//]]>
+</script>           

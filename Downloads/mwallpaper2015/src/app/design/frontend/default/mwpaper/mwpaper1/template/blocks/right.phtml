@@ -1,0 +1,219 @@
+<style>
+	/*.order-form { width:100%; background-color: white; }
+	.order-button { margin : 10px; }
+	.order-size { border-bottom: 1px solid black; padding:5px;}
+	.order-size li { margin-top: 10px;  }
+	.order-size-custom li { margin-top: 10px;}
+	.heading { margin-top: 10px; margin-bottom: 10px; border-top: 1px solid black; border-bottom: 1px solid black;  padding: 10px; }
+	.order-input{ height:25px; width:50px; text-align:center; }*/
+	
+	
+</style>
+<link href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB)?>progress-bar/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+	
+<script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB)?>progress-bar/js/jquery-ui-1.10.3.custom.js"></script>
+
+<div class="order-form">
+	<div>
+		<h4> Order Here</h4>
+	</div> 
+	<form action="<?php echo Mage::getBaseUrl()?>orderprocess/index/crop" method="POST" class="cm" name="orderForm" id="orderForm" enctype="multipart/form-data">
+	<div>
+		<div class="order_form_row"> 
+		<h5 class="heading">1) Select Picture </h5>
+		<!--<input type="text" name="uploaedImage" id ="uploaedImage" onClick="javascript:openFileBrowser();" />-->
+		<div class="upload_file">
+			<input type="file" onChange="check();" name="image" id="image" class="required-entry">
+       		</div>  
+       <p>( *.jpg, *.png, *.tiff)</p><label id="uploaedImage"></label>
+       
+		<!--button class="order-button" onclick="openKCFinder(this);" type="button" name="select_from_gallary" id="select_from_gallary">Select From Gallery </button><label id="selectedImage"></label>
+		<input type="hidden" name="galleryImage" id="galleryImage"--> 	
+ 
+	</div>
+ </div>
+	<div>
+		<div class="order_form_row">
+			<h5 class="heading">2) Select Size</h5>
+			<ul class="order-size">
+
+<?php 
+	$product = Mage::getModel('catalog/product')->load(1);
+	$productOptions = $product->getOptions();
+	$custom = "0";
+	foreach($productOptions as $optionKey => $optionVal) {
+	 
+	if($optionVal->getId()!=1){ continue;}
+	$optionCount = 0;
+	foreach($optionVal->getValues() as $valuesKey => $valuesVal) {
+		if($valuesVal->getTitle()=="custom"){ $custom = Mage::helper('core')->currency((float)$valuesVal->getPrice()+(float)$product->getPrice(),true,false); continue;}
+
+		$optStr .= "<option value='".$valuesVal->getId()."'>".$valuesVal->getTitle()."</option>";
+	?>
+		<li>
+			<span class="optionLabel"><?php if($optionCount=='0') { echo "sample print"; $optionCount++;}elseif($optionCount=='1'){echo "panel print";$optionCount++;}?></span>
+			<input type="radio" name="size" onClick="javascript:CheckCustom();" value="<?php echo $valuesVal->getTitle()?>"  checked> <label><?php echo $valuesVal->getTitle()?> cm  </label><span> <?php echo Mage::helper('core')->currency((float)$valuesVal->getPrice()+(float)$product->getPrice(),true,false);?> </span></li>
+<?php
+		
+	}
+	 
+	
+	}
+
+?>
+
+			</ul>
+			<ul class="order-size-custom">
+				<li><input type="radio" name="size" id="customSize" onClick="javascript:CheckCustom();" value="custom"><label> or enter custom size</label><span id="priceCalcCustom"> &nbsp;<?php echo $custom;?> </span></li>
+				<li> <input  class="order-input width-class" onfocus="if(this.value=='width'){ this.value=''} javascript:checkRadioButton();" onblur="if(this.value==''){ this.value='width'} javascript:CalPrice();" onkeyup="javascript:CalPrice();" type="text" name="width" id="width"  value="width">&nbsp; X &nbsp; <input class="order-input height-class" type="text" name="height" id="height" onfocus="if(this.value=='height'){ this.value=''} javascript:checkRadioButton();" onblur="if(this.value==''){ this.value='height'} javascript:CalPrice();" onkeyup="javascript:CalPrice();" value="height">&nbsp;cm</li>
+			</ul>
+     </div>
+          <div class="order_form_row">     
+                <h5 class="heading">3) Upload &amp; Check Picture</h5>
+			<button class="order-button" onclick="upload()" type="button" name="button" value="Upload & Check Picture" id="upload_picture">Go!</button>			
+
+			</div>
+			
+		
+
+	</div>
+	 
+	</form>
+
+</div>
+<div id="progressDiv">
+<div id="progressbar"><div class="progress-label"></div></div>
+</div>
+<script type="text/javascript">
+	var jq = jQuery.noConflict();
+
+	function check()
+	{
+		jq("#uploaedImage").html(document.getElementById('image').files.item(0).name)
+		//openProgressBar();
+		//progressBarStart();
+	}
+	/*function openFileBrowser()
+	{
+		 jq('#image').trigger('click');
+		
+	}*/
+	
+	
+	function upload() 
+	{
+	   openProgressBar();
+	   progressBarStart(); 	    
+	  // alert("hshs");
+          
+	}
+	function triger() {
+		//code
+		alert(jq("#size4").val());
+	}
+	function checkRadioButton() {
+		//alert("check");//jq('#customSize').attr('checked');
+		jq('#customSize').prop('checked', true);
+	}
+	function CalPrice() {
+		var height = jq('#height').val();
+		var width  = jq('#width').val();
+		if (height !="" && width!="") {
+			if (!isNaN(height) && !isNaN(width) ) {
+				
+				var sqm = (width*height)/10000;
+				var price = 0.0;
+				jq.ajax({
+					type: "POST",
+					url: "<?php echo Mage::getBaseUrl()?>orderprocess/index/calcPrice",
+					data:  "sqmval="+sqm 
+					}).done(function( msg ) {
+					jq("#priceCalcCustom").html(msg);
+				});
+			}
+		}
+		
+	}
+	//#ADD400
+	function progressBarStart()
+	{
+	
+		var progressbar = jq( "#progressbar" ),
+		progressLabel = jq( ".progress-label" );
+		
+		progressbar.progressbar({
+			value: false,
+			change: function() {
+				progressLabel.text( progressbar.progressbar( "value" ) + "%" );
+			},
+			complete: function() {
+				//progressLabel.text( "Complete!" );
+				
+				jq("#progressDiv").dialog( "close" );
+				
+			}
+		});
+		progressbarValue = progressbar.find( ".ui-progressbar-value" );
+		progressbarValue.css({
+			"background": '#ADD400'
+		});
+		
+		function progress() {
+			var val = progressbar.progressbar( "value" ) || 0;
+			progressbar.progressbar( "value", val + 1 );
+			if ( val < 99 ) {
+				setTimeout( progress, 30 );
+			}
+                        else{
+                            document.getElementById("orderForm").submit();
+                        }
+		}
+		setTimeout( progress, 1000 );
+
+	}
+	
+	function openProgressBar()
+	{
+		jq("#progressDiv").dialog({height: 150, width:500,modal: true}); 		
+	}
+	
+	function openKCFinder() {
+
+	jq("#somediv").load('<?php echo Mage::getBaseUrl();?>gallery/index/gallery/').dialog({height: 600, width:800,modal: true}); 
+	 /*   window.open('<?php echo Mage::getBaseUrl();?>gallery/index/gallery/',
+		'kcfinder_multiple', 'status=0, toolbar=0, location=0, menubar=0, ' +
+		'directories=1, resizable=1, scrollbars=1, width=800, height=600'
+	    );*/
+	}
+	function CheckCustom()
+	{
+	   if(jq('#customSize').is(':checked')) { 
+		jq('.order-input').addClass("required-entry validate-number"); 
+		jq('.height-class').addClass("validate-max-height"); 
+		jq('.width-class').addClass("validate-max-width");  
+	   }else{ 
+		jq('.order-input').removeClass("required-entry validate-number validation-passed validation-failed"); 
+		jq('.height-class').removeClass("validate-max-height"); 
+		jq('.width-class').removeClass("validate-max-width"); 
+		jq('#advice-validate-max-width-width').hide(); //advice-validate-max-width-width advice-validate-number-width
+		jq('#advice-validate-max-height-height').hide(); } //advice-validate-max-height-height advice-validate-number-height
+	}
+
+	var orderForm = new VarienForm('orderForm', true);
+	Validation.add('validate-max-width','Max allow size is 800 cm. You should send email to support@misterwallpaper',function(the_field_value){
+        if(the_field_value <= 800)
+        {
+            return true;
+        }
+        return false;
+    });
+	Validation.add('validate-max-height','Max allow size is 600 cm. You should send email to support@misterwallpaper',function(the_field_value){
+        if(the_field_value <= 600)
+        {
+            return true;
+        }
+        return false;
+    });
+	
+</script>
+<div id="somediv" title="Select picture from gallery"></div>

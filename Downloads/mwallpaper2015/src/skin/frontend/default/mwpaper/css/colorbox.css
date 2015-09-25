@@ -1,0 +1,302 @@
+@charset "utf-8";
+
+/* colorbox height width 13sept2013 */
+#step1 #colorbox{height: 1580px;}
+#step1 #cboxWrapper{height: 1580px; width: 800px;}
+#step1 #cboxTopLeft{float: left;}
+#step1 #cboxTopCenter{float: left; width: 750px;}
+#step1 #cboxTopRight{float: left;}
+#step1 #cboxMiddleLeft{float: left; height: 1510px;}
+#step1 #cboxContent{float: left; width: 750px; height: 1510px;}
+#step1 #cboxLoadedContent{width: 750px; overflow: auto; height: 1490px;}
+#step1 #cboxMiddleRight{float: left; height: 1510px;}
+#step1 #cboxBottomLeft{float: left;}
+#step1 #cboxBottomCenter{float: left;width: 750px;}
+#step1 #cboxBottomRight{float: left;}
+
+#step2 #colorbox{height: 860px;}
+#step2 #cboxWrapper{height: 860px; width: 800px;}
+#step2 #cboxTopLeft{float: left;}
+#step2 #cboxTopCenter{float: left; width: 750px;}
+#step2 #cboxTopRight{float: left;}
+#step2 #cboxMiddleLeft{float: left; height: 800px;}
+#step2 #cboxContent{float: left; width: 750px; height: 800px;}
+#step2 #cboxLoadedContent{width: 750px; overflow: auto; height: 780px;}
+#step2 #cboxMiddleRight{float: left; height: 800px;}
+#step2 #cboxBottomLeft{float: left;}
+#step2 #cboxBottomCenter{float: left;width: 750px;}
+#step2 #cboxBottomRight{float: left;}
+
+#step3 #colorbox{height: 840px;}
+#step3 #cboxWrapper{height: 840px; width: 800px;}
+#step3 #cboxTopLeft{float: left;}
+#step3 #cboxTopCenter{float: left; width: 750px;}
+#step3 #cboxTopRight{float: left;}
+#step3 #cboxMiddleLeft{float: left; height: 785px;}
+#step3 #cboxContent{float: left; width: 750px; height: 785px;}
+#step3 #cboxLoadedContent{width: 750px; overflow: auto; height: 765px;}
+#step3 #cboxMiddleRight{float: left; height: 785px;}
+#step3 #cboxBottomLeft{float: left;}
+#step3 #cboxBottomCenter{float: left;width: 750px;}
+#step3 #cboxBottomRight{float: left;}
+
+#step4 #colorbox{height: 850px;}
+#step4 #cboxWrapper{height: 850px; width: 800px;}
+#step4 #cboxTopLeft{float: left;}
+#step4 #cboxTopCenter{float: left; width: 750px;}
+#step4 #cboxTopRight{float: left;}
+#step4 #cboxMiddleLeft{float: left; height: 805px;}
+#step4 #cboxContent{float: left; width: 750px; height: 805px;}
+#step4 #cboxLoadedContent{width: 750px; overflow: auto; height: 785px;}
+#step4 #cboxMiddleRight{float: left; height: 805px;}
+#step4 #cboxBottomLeft{float: left;}
+#step4 #cboxBottomCenter{float: left;width: 750px;}
+#step4 #cboxBottomRight{float: left;}
+
+#step5 #colorbox{height: 540px;}
+#step5 #cboxWrapper{height: 540px; width: 800px;}
+#step5 #cboxTopLeft{float: left;}
+#step5 #cboxTopCenter{float: left; width: 750px;}
+#step5 #cboxTopRight{float: left;}
+#step5 #cboxMiddleLeft{float: left; height: 480px;}
+#step5 #cboxContent{float: left; width: 750px; height: 480px;}
+#step5 #cboxLoadedContent{width: 750px; overflow: auto; height: 460px;}
+#step5 #cboxMiddleRight{float: left; height: 480px;}
+#step5 #cboxBottomLeft{float: left;}
+#step5 #cboxBottomCenter{float: left;width: 750px;}
+#step5 #cboxBottomRight{float: left;}
+
+
+#add_prod #colorbox{height: 1520px;}
+#add_prod #cboxWrapper{height: 1520px; width: 800px;}
+#add_prod #cboxTopLeft{float: left;}
+#add_prod #cboxTopCenter{float: left; width: 750px;}
+#add_prod #cboxTopRight{float: left;}
+#add_prod #cboxMiddleLeft{float: left; height: 1450px;}
+#add_prod #cboxContent{float: left; width: 750px; height: 1450px;}
+#add_prod #cboxLoadedContent{width: 750px; overflow: inherit; height: 1430px;}
+#add_prod #cboxMiddleRight{float: left; height: 1450px;}
+#add_prod #cboxBottomLeft{float: left;}
+#add_prod #cboxBottomCenter{float: left;width: 750px;}
+#add_prod #cboxBottomRight{float: left;}
+
+#add_prod_photo #colorbox{height: 1320px;}
+#add_prod_photo #cboxWrapper{height: 1320px; width: 800px;}
+#add_prod_photo #cboxTopLeft{float: left;}
+#add_prod_photo #cboxTopCenter{float: left; width: 750px;}
+#add_prod_photo #cboxTopRight{float: left;}
+#add_prod_photo #cboxMiddleLeft{float: left; height: 1250px;}
+#add_prod_photo #cboxContent{float: left; width: 750px; height: 1250px;}
+#add_prod_photo #cboxLoadedContent{width: 750px; overflow: inherit; height: 1230px;}
+#add_prod_photo #cboxMiddleRight{float: left; height: 1250px;}
+#add_prod_photo #cboxBottomLeft{float: left;}
+#add_prod_photo #cboxBottomCenter{float: left;width: 750px;}
+#add_prod_photo #cboxBottomRight{float: left;}
+
+#postage_container #colorbox{height: 770px;}
+#postage_container #cboxWrapper{height: 770px; width: 800px;}
+#postage_container #cboxTopLeft{float: left;}
+#postage_container #cboxTopCenter{float: left; width: 750px;}
+#postage_container #cboxTopRight{float: left;}
+#postage_container #cboxMiddleLeft{float: left; height: 600px;}
+#postage_container #cboxContent{float: left; width: 750px; height: 600px;}
+#postage_container #cboxLoadedContent{width: 750px; overflow: inherit; height: 570px;}
+#postage_container #cboxMiddleRight{float: left; height: 600px;}
+#postage_container #cboxBottomLeft{float: left;}
+#postage_container #cboxBottomCenter{float: left;width: 750px;}
+#postage_container #cboxBottomRight{float: left;}
+
+#confirm_swap #colorbox{height: 1100px;}
+#confirm_swap #cboxWrapper{height: 1100px; width: 800px;}
+#confirm_swap #cboxTopLeft{float: left;}
+#confirm_swap #cboxTopCenter{float: left; width: 750px;}
+#confirm_swap #cboxTopRight{float: left;}
+#confirm_swap #cboxMiddleLeft{float: left; height: 930px;}
+#confirm_swap #cboxContent{float: left; width: 750px; height: 930px;}
+#confirm_swap #cboxLoadedContent{width: 750px; overflow: inherit; height: 900px;}
+#confirm_swap #cboxMiddleRight{float: left; height: 930px;}
+#confirm_swap #cboxBottomLeft{float: left;}
+#confirm_swap #cboxBottomCenter{float: left;width: 750px;}
+#confirm_swap #cboxBottomRight{float: left;}
+
+#confirm_swap2 #colorbox{height: 1570px;}
+#confirm_swap2 #cboxWrapper{height: 1570px; width: 800px;}
+#confirm_swap2 #cboxTopLeft{float: left;}
+#confirm_swap2 #cboxTopCenter{float: left; width: 750px;}
+#confirm_swap2 #cboxTopRight{float: left;}
+#confirm_swap2 #cboxMiddleLeft{float: left; height: 1270px;}
+#confirm_swap2 #cboxContent{float: left; width: 750px; height: 1270px;}
+#confirm_swap2 #cboxLoadedContent{width: 750px; overflow: inherit; height: 1240px;}
+#confirm_swap2 #cboxMiddleRight{float: left; height: 1270px;}
+#confirm_swap2 #cboxBottomLeft{float: left;}
+#confirm_swap2 #cboxBottomCenter{float: left;width: 750px;}
+#confirm_swap2 #cboxBottomRight{float: left;}
+
+#confirm_swap3 #colorbox{height: 1570px;}
+#confirm_swap3 #cboxWrapper{height: 1570px; width: 800px;}
+#confirm_swap3 #cboxTopLeft{float: left;}
+#confirm_swap3 #cboxTopCenter{float: left; width: 750px;}
+#confirm_swap3 #cboxTopRight{float: left;}
+#confirm_swap3 #cboxMiddleLeft{float: left; height: 1270px;}
+#confirm_swap3 #cboxContent{float: left; width: 750px; height: 1270px;}
+#confirm_swap3 #cboxLoadedContent{width: 750px; overflow: inherit; height: 1240px;}
+#confirm_swap3 #cboxMiddleRight{float: left; height: 1270px;}
+#confirm_swap3 #cboxBottomLeft{float: left;}
+#confirm_swap3 #cboxBottomCenter{float: left;width: 750px;}
+#confirm_swap3 #cboxBottomRight{float: left;}
+
+#confirm_purchase #colorbox{height: 1150px;}
+#confirm_purchase #cboxWrapper{height: 1150px; width: 800px;}
+#confirm_purchase #cboxTopLeft{float: left;}
+#confirm_purchase #cboxTopCenter{float: left; width: 750px;}
+#confirm_purchase #cboxTopRight{float: left;}
+#confirm_purchase #cboxMiddleLeft{float: left; height: 980px;}
+#confirm_purchase #cboxContent{float: left; width: 750px; height: 980px;}
+#confirm_purchase #cboxLoadedContent{width: 750px; overflow: inherit; height: 950px;}
+#confirm_purchase #cboxMiddleRight{float: left; height: 980px;}
+#confirm_purchase #cboxBottomLeft{float: left;}
+#confirm_purchase #cboxBottomCenter{float: left;width: 750px;}
+#confirm_purchase #cboxBottomRight{float: left;}
+
+
+#category_container #colorbox{height: 550px;}
+#category_container #cboxWrapper{height: 550px; width: 800px;}
+#category_container #cboxTopLeft{float: left;}
+#category_container #cboxTopCenter{float: left; width: 750px;}
+#category_container #cboxTopRight{float: left;}
+#category_container #cboxMiddleLeft{float: left; height: 380px;}
+#category_container #cboxContent{float: left; width: 750px; height: 380px;}
+#category_container #cboxLoadedContent{width: 750px; overflow: inherit; height: 350px;}
+#category_container #cboxMiddleRight{float: left; height: 380px;}
+#category_container #cboxBottomLeft{float: left;}
+#category_container #cboxBottomCenter{float: left;width: 750px;}
+#category_container #cboxBottomRight{float: left;}
+
+#review_swapper #colorbox{height: 670px;}
+#review_swapper #cboxWrapper{height: 670px; width: 800px;}
+#review_swapper #cboxTopLeft{float: left;}
+#review_swapper #cboxTopCenter{float: left; width: 750px;}
+#review_swapper #cboxTopRight{float: left;}
+#review_swapper #cboxMiddleLeft{float: left; height: 500px;}
+#review_swapper #cboxContent{float: left; width: 750px; height: 500px;}
+#review_swapper #cboxLoadedContent{width: 750px; overflow: inherit; height: 470px;}
+#review_swapper #cboxMiddleRight{float: left; height: 500px;}
+#review_swapper #cboxBottomLeft{float: left;}
+#review_swapper #cboxBottomCenter{float: left;width: 750px;}
+#review_swapper #cboxBottomRight{float: left;}
+
+#thanku_for_shopping #colorbox{height: 920px;}
+#thanku_for_shopping #cboxWrapper{height: 920px; width: 800px;}
+#thanku_for_shopping #cboxTopLeft{float: left;}
+#thanku_for_shopping #cboxTopCenter{float: left; width: 750px;}
+#thanku_for_shopping #cboxTopRight{float: left;}
+#thanku_for_shopping #cboxMiddleLeft{float: left; height: 850px;}
+#thanku_for_shopping #cboxContent{float: left; width: 750px; height: 850px;}
+#thanku_for_shopping #cboxLoadedContent{width: 750px; overflow: inherit; height: 830px;}
+#thanku_for_shopping #cboxMiddleRight{float: left; height: 850px;}
+#thanku_for_shopping #cboxBottomLeft{float: left;}
+#thanku_for_shopping #cboxBottomCenter{float: left;width: 750px;}
+#thanku_for_shopping #cboxBottomRight{float: left;}
+
+#subscribe_newsltr #colorbox{height: 720px;}
+#subscribe_newsltr #cboxWrapper{height: 720px; width: 800px;}
+#subscribe_newsltr #cboxTopLeft{float: left;}
+#subscribe_newsltr #cboxTopCenter{float: left; width: 750px;}
+#subscribe_newsltr #cboxTopRight{float: left;}
+#subscribe_newsltr #cboxMiddleLeft{float: left; height: 650px;}
+#subscribe_newsltr #cboxContent{float: left; width: 750px; height: 650px;}
+#subscribe_newsltr #cboxLoadedContent{width: 750px; overflow: inherit; height: 630px;}
+#subscribe_newsltr #cboxMiddleRight{float: left; height: 650px;}
+#subscribe_newsltr #cboxBottomLeft{float: left;}
+#subscribe_newsltr #cboxBottomCenter{float: left;width: 750px;}
+#subscribe_newsltr #cboxBottomRight{float: left;}
+
+#size_guide #colorbox{height: 770px;}
+#size_guide #cboxWrapper{height: 770px; width: 800px;}
+#size_guide #cboxTopLeft{float: left;}
+#size_guide #cboxTopCenter{float: left; width: 750px;}
+#size_guide #cboxTopRight{float: left;}
+#size_guide #cboxMiddleLeft{float: left; height: 700px;}
+#size_guide #cboxContent{float: left; width: 750px; height: 700px;}
+#size_guide #cboxLoadedContent{width: 750px; overflow: auto; height: 680px;}
+#size_guide #cboxMiddleRight{float: left; height: 700px;}
+#size_guide #cboxBottomLeft{float: left;}
+#size_guide #cboxBottomCenter{float: left;width: 750px;}
+#size_guide #cboxBottomRight{float: left;}
+/* height width */
+
+
+/*
+    Colorbox Core Style:
+    The following CSS is consistent between example themes and should not be altered.
+*/
+#colorbox, #cboxOverlay, #cboxWrapper{position:absolute; top:0; left:0; z-index:9999;/* overflow:hidden;*/}
+#cboxOverlay{position:fixed; width:100%; height:100%;}
+#cboxMiddleLeft, #cboxBottomLeft{clear:left;}
+#cboxContent{position:relative;}
+#cboxLoadedContent{overflow:auto; -webkit-overflow-scrolling: touch;}
+#cboxTitle{margin:0;}
+#cboxLoadingOverlay, #cboxLoadingGraphic{position:absolute; top:0; left:0; width:100%; height:100%;}
+#cboxPrevious, #cboxNext, #cboxClose, #cboxSlideshow{cursor:pointer;}
+.cboxPhoto{float:left; margin:auto; border:0; display:block; max-width:none; -ms-interpolation-mode:bicubic;}
+.cboxIframe{width:100%; height:100%; display:block; border:0;}
+#colorbox, #cboxContent, #cboxLoadedContent{box-sizing:content-box; -moz-box-sizing:content-box; -webkit-box-sizing:content-box;}
+
+/* 
+    User Style:
+    Change the following styles to modify the appearance of Colorbox.  They are
+    ordered & tabbed in a way that represents the nesting of the generated HTML.
+*/
+#cboxOverlay{background:#fff;}
+#colorbox{outline:0;
+    display: block;
+    left: 18%;
+    position: absolute;
+    top: 15px;
+    visibility: visible;
+    width: 800px;
+}
+#cboxTopLeft{width:25px; height:25px; background:url(../images/border1.png) no-repeat 0 0;}
+#cboxTopCenter{height:25px; background:url(../images/border1.png) repeat-x 0 -50px;}
+#cboxTopRight{width:25px; height:25px; background:url(../images/border1.png) no-repeat -25px 0;}
+#cboxBottomLeft{width:25px; height:25px; background:url(../images/border1.png) no-repeat 0 -25px;}
+#cboxBottomCenter{height:25px; background:url(../images/border1.png) repeat-x 0 -75px;}
+#cboxBottomRight{width:25px; height:25px; background:url(../images/border1.png) no-repeat -25px -25px;}
+#cboxMiddleLeft{width:25px; background:url(../images/border2.png) repeat-y 0 0;}
+#cboxMiddleRight{width:25px; background:url(../images/border2.png) repeat-y -25px 0;}
+#cboxContent{background:#fff; /*overflow:hidden;*/}
+.cboxIframe{background:#fff;}
+#cboxError{padding:50px; border:1px solid #ccc;}
+#cboxLoadedContent{margin-bottom:20px;}
+#cboxTitle{position:absolute; bottom:0px; left:0; text-align:center; width:100%; color:#999; display:none;}
+#cboxCurrent{position:absolute; bottom:0px; left:100px; color:#999;}
+#cboxLoadingOverlay{background:#fff url(../images/loading-bk.gif) no-repeat 5px 5px;}
+
+/* these elements are buttons, and may need to have additional styles reset to avoid unwanted base styles */
+#cboxPrevious, #cboxNext, #cboxSlideshow, #cboxClose {border:0; padding:0; margin:0; overflow:visible; width:auto; background:none; }
+
+/* avoid outlines on :active (mouseclick), but preserve outlines on :focus (tabbed navigating) */
+#cboxPrevious:active, #cboxNext:active, #cboxSlideshow:active, #cboxClose:active {outline:0;}
+
+#cboxSlideshow{position:absolute; bottom:0px; right:42px; color:#444;}
+#cboxPrevious{position:absolute; bottom:0px; left:0; color:#444;}
+#cboxNext{position:absolute; bottom:0px; left:63px; color:#444;}
+
+#cboxClose {color: #444444;cursor: pointer;display: block;height: 36px;overflow: hidden;position: absolute;right: 0;text-indent: -99px;top: 0;width: 36px;background:url(../images/close_dg.png) no-repeat left top;}
+#cboxClose:hover{background:url(../images/close_dg_h.png) no-repeat left top;}
+
+/*
+  The following fixes a problem where IE7 and IE8 replace a PNG's alpha transparency with a black fill
+  when an alpha filter (opacity change) is set on the element or ancestor element.  This style is not applied to or needed in IE9.
+  See: http://jacklmoore.com/notes/ie-transparency-problems/
+*/
+.cboxIE #cboxTopLeft,
+.cboxIE #cboxTopCenter,
+.cboxIE #cboxTopRight,
+.cboxIE #cboxBottomLeft,
+.cboxIE #cboxBottomCenter,
+.cboxIE #cboxBottomRight,
+.cboxIE #cboxMiddleLeft,
+.cboxIE #cboxMiddleRight {
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF);
+}

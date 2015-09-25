@@ -1,0 +1,11 @@
+/app/code/community/ProxiBlue/PinPayments/ 
+/app/design/frontend/base/default/layout/pinpayments.xml
+/app/design/frontend/base/default/template/pinpayments/ccform.phtml
+/skin/frontend/base/default/js/pinpayments.js
+/skin/frontend/base/default/css/pinpayments.css
+<<<<<<< HEAD
+/skin/frontend/base/default/images/pinpayments/
+=======
+/skin/frontend/base/default/images/pinpayments/
+/app/etc/modules/ProxiBlue_PinPayments.xml
+>>>>>>> pin-payments

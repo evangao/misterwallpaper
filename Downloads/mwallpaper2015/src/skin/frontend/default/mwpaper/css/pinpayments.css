@@ -1,0 +1,37 @@
+#payment_form_pinpayments li {
+    position: relative;
+}
+#pinpayments_cc_number {
+    width: 195px;
+    float:left;
+}
+#pinpayments_cc_image {
+    position: absolute;
+    left: 208px;
+    top: 3px;
+}
+
+#pinpayments_cc_display_number{
+    padding-left: 10px;
+}
+
+.save-is-this-secure {
+    padding-left: 10px;
+}
+
+#save-tool-tip {
+    background: white;
+}
+
+#left-image{
+    float: left;
+}
+
+#right-content {
+    float:right;
+}
+
+#save-tool-top-text{
+    width: 200px;
+}
+

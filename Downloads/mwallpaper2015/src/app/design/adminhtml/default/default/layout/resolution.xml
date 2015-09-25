@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <resolution_adminhtml_resolution_index>
+	<reference name="content">
+	  <block type="resolution/adminhtml_resolution" name="resolution" />
+	</reference>
+  </resolution_adminhtml_resolution_index>
+</layout>

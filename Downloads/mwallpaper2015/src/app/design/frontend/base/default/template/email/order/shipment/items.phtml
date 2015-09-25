@@ -1,0 +1,65 @@
+<?php
+
+?>
+<?php $_shipment = $this->getShipment() ?>
+<?php $_order    = $this->getOrder() ?>
+<?php //$comment   = $this->getComment() ?>
+<?php if ($_shipment && $_order): ?>
+		<div class="msg_heading_inner" style="text-align: center;margin:5px auto;"><!-- container_inner starts -->        
+			Horse Feathers Pty Ltd (TA Mister Wallpaper)<br />
+			Level 2/608 Harris Street · Ultimo · NSW· 2007<br />
+			Australia · info@misterwallpaper.com.au
+		</div><!-- container ends --> 
+		<div class="msg_container" style="float:left;width:100%; background:#ffffff;"><!-- msg -->
+			<div class="msg_container_inner" style="margin: 10px auto; width: 730px;"><!-- msg -->
+				<div style="text-align:left; margin:60px auto;">
+					<?php echo $_order->getBillingAddress()->getFirstname()." ".$_order->getBillingAddress()->getLastname() ?><br />
+					<?php echo $_order->getBillingAddress()->getStreet(1)?><br />
+					<?php if($_order->getBillingAddress()->getStreet(2)!=""){?>
+					<?php echo $_order->getBillingAddress()->getStreet(2)?><br />
+					<?php }?>
+					
+					<?php echo $_order->getBillingAddress()->getCity()?> <?php echo $_order->getBillingAddress()->getRegion()?> <?php echo $_order->getBillingAddress()->getPostcode()?><br />
+					<?php echo Mage::app()->getLocale()->getCountryTranslation($_order->getBillingAddress()->getCountryId());?><br />
+				</div>
+				<div style="text-align:right;">
+					<?php echo date("d.m.Y",strtotime($_order->getCreatedAt())) ?><br />
+					order #<?php echo $_order->getIncrementId()?><br />
+					Delivery note<?php //echo $comment;?>
+				</div>
+				<div style="padding:5px;">
+					Custom printed wallpaper					
+				</div>
+				<div style="min-height:650px;border-bottom:1px solid #231f20; margin:0 0 80px 0;">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin:35px 0 0 0;">
+						<colgroup>
+							<col width="1%" />
+							<col width="" />
+						</colgroup>
+						<tbody>
+							<tr>
+								<td style="padding:7px;border-bottom:2px solid #231f20;">Item</td>
+								<td style="padding:7px;border-bottom:2px solid #231f20;">Description</td>
+							</tr>
+							<?php $i=0; foreach ($_shipment->getAllItems() as $_item): ?>
+							<?php if($_item->getOrderItem()->getParentItem()) continue; else $i++; ?>
+								<tr>
+									<td style="padding:7px;" valign="top"><?php echo $i;?></td>
+									<?php echo $this->getItemHtml($_item) ?>
+								</tr>
+							<?php endforeach; ?>
+						</tbody>
+                    </table>	
+					<div style="text-align: center;margin:50px auto;float:left;width:100%;">
+						Please read the attached instructions before installing your wallpaper<br />
+and you will receive an fantastic result!
+					</div>
+					<div style="margin:20px 0 0 0;float:left;width:100%;">
+						Thank you very much for your order!<br /><br />
+						Mister Wallpaper
+					</div>
+				</div>
+			</div><!-- msg ends -->
+		</div><!-- msg ends -->
+
+<?php endif; ?>

@@ -1,0 +1,56 @@
+<?php
+/**
+ * @category    Fishpig
+ * @package     Fishpig_Wordpress
+ * @license     http://fishpig.co.uk/license.txt
+ * @author      Ben Tideswell <help@fishpig.co.uk>
+ */
+?>
+<?php $post = $this->getPost() ?>
+<?php if ($post): ?>
+<p class="post-meta details">
+<?php if ($this->hasTags($post)): ?>
+	<?php echo 'This entry was posted in <span class=\"post-in-category\">'.$this->getCategoryString($post).'</span> and tagged <span class=\"post-tags\">'.$this->getTagString($post).'</span> on '.$post->getPostDate().'<span class=\"by-author\"> by '.$post->getAuthor()->getDisplayName().'</span>.'; ?>
+<?php else: ?>
+	<?php echo $this->__('This entry was posted in <span class=\"post-in-category\">%s</span> on %s<span class=\"by-author\"> by %s</span>.', $this->getCategoryString($post), $post->getPostDate(), $post->getAuthor()->getDisplayName()) ?>
+<?php endif; ?>
+<?php if ($this->getIncludeNextPreviousLinks()): ?>
+	<?php if ($this->canDisplayPreviousNextLinks()): ?>
+	<span class="post-skips">
+		<?php if (($previous = $post->getPreviousPost()) !== false): ?>
+			<a href="<?php echo $previous->getPermalink() ?>" class="post-skip post-skip-previous" title="<?php echo $this->escapeHtml($previous->getPostTitle()) ?>"> <?php echo $this->__('Previous Post') ?></a>
+		<?php endif; ?>
+		<?php if (($next = $post->getNextPost()) !== false): ?>
+			<a href="<?php echo $next->getPermalink() ?>" class="post-skip post-skip-next" title="<?php echo $this->escapeHtml($next->getPostTitle()) ?>"><?php echo $this->__('Next Post') ?></a>
+		<?php endif; ?>
+	</span>
+	<?php endif; ?>
+<?php endif; ?>
+</p>
+<?php endif; ?>
+<?php return ?>
+
+
+<?php $author = $post->getAuthor() ?>
+<p class="post-meta details">
+	<?php $categories = $post->getParentCategories() ?>
+	<?php if (count($categories) > 0): ?>
+		<span><?php echo $this->__('Posted in') ?> </span>
+		<span class="post-in-category">
+		<?php $it = count($categories) ?>
+		<?php foreach($categories as $category): ?><a href="<?php echo $category->getUrl() ?>"><?php echo $category->getName() ?></a><?php if (--$it > 0): ?>, <?php endif; ?><?php endforeach; ?>
+		</span>
+	<?php endif; ?>
+	<?php $tags = $post->getTags() ?>
+	<?php if (count($tags) > 0): ?>
+		<span><?php echo (count($categories) == 0) ? $this->__('Tagged with') : $this->__('and tagged with') ?> </span> 
+		 <?php $it = count($tags) ?>
+		 <span class="post-tags">
+		 <?php foreach($tags as $tag): ?>	<a href="<?php echo $tag->getUrl() ?>"><?php echo $this->escapeHtml($tag->getName()) ?></a><?php if (--$it > 0): ?>, <?php endif; ?><?php endforeach; ?>
+		</span>	
+	<?php endif; ?>
+	<?php echo $this->__('by') ?> <a href="<?php echo $author->getUrl() ?>"><?php echo $this->escapeHtml($author->getDisplayName()) ?></a>. 
+	<?php if ($post->getCommentCount() > 0): ?>
+		<span><a href ="<?php echo $post->getPermalink() ?>#comments"><?php echo $post->getCommentCount() ?> <?php if ($post->getCommentCount() == 1): ?><?php echo $this->__('Reply') ?><?php else: ?><?php echo $this->__('Replies') ?><?php endif; ?></a></span>
+	<?php endif; ?>
+</p>

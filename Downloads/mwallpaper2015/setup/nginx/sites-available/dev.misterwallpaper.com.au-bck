@@ -1,0 +1,82 @@
+server{
+	listen 188.40.46.76:80;
+	root /var/www/dev;
+	index index.php;
+	server_name dev.misterwallpaper.com.au;
+
+	access_log /var/log/nginx/dev.misterwallpaper.com.au-access.log;
+	error_log  /var/log/nginx/dev.misterwallpaper.com.au-error.log;
+
+	location / {
+		 try_files $uri $uri/ /index.php;
+		}
+
+	location ~ /\.ht{
+		deny all;
+	}
+	
+	location ~ \.php($|/){
+		include fastcgi_params;
+                set $script $uri;
+		fastcgi_pass  127.0.0.1:9000;
+                fastcgi_index index.php;
+                fastcgi_param SCRIPT_NAME $script;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+	}
+}
+
+# HTTPS server
+server{
+	listen 188.40.46.76:443;
+	root /var/www/dev;
+	index index.php;
+	server_name dev.misterwallpaper.com.au;
+
+	access_log /var/log/nginx/dev.misterwallpaper.com.au-ssl-access.log;
+	error_log  /var/log/nginx/dev.misterwallpaper.com.au-ssl-error.log;
+
+       	ssl on;
+       	ssl_certificate ssl/dev.misterwallpaper.com.au.crt;
+       	ssl_certificate_key ssl/dev.misterwallpaper.com.au.key;
+
+       	ssl_session_timeout 5m;
+
+       	ssl_protocols SSLv3 TLSv1;
+       	ssl_ciphers ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv3:+EXP;
+       	ssl_prefer_server_ciphers on;
+
+	location / {
+		 try_files $uri $uri/ /index.php;
+		}
+
+	location ~ /\.ht{
+		deny all;
+	}
+	
+	location ~ \.php($|/){
+		include fastcgi_params;
+                set $script $uri;
+		fastcgi_pass  127.0.0.1:9000;
+                fastcgi_index index.php;
+		fastcgi_param HTTPS on;
+                fastcgi_param SCRIPT_NAME $script;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+	}
+
+	#phpmyadmin
+	location /pma {
+               	alias /usr/share/phpmyadmin;
+               	index index.php index.html index.htm;
+               	location ~ ^/pma/(.+\.php)$ {
+			alias /usr/share/phpmyadmin/$1;
+                	fastcgi_pass 127.0.0.1:9000;
+                       	fastcgi_index index.php;
+			fastcgi_param HTTPS on;
+                       	fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                       	include /etc/nginx/fastcgi_params;
+               	}
+               	location ~* ^/pma/(.+\.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt))$ {
+			alias /usr/share/phpmyadmin/$1;
+               }
+        }
+}

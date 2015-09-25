@@ -1,0 +1,61 @@
+<?php
+require_once 'fotolia/fotolia-api.php';
+
+//$api = new Fotolia_Api('5XEVph1BVGHkZz3VChlwtIHFsUW9gUMc');
+
+$api 		 = new Fotolia_Api('b55etmZ7eCuWnpkiTaT1cpFeGUfImwMD');
+
+$session 	 = $api->loginUser('fotomlia','meherhim23');
+
+$userGallery = $api->getUserGalleryMedias(1,128,110,'Dn5pEsWZgJpLLxfvVKsmf3WBd6Ozn7Vq',1);
+
+$tags        = $api->getTags();
+
+
+?>
+<div class="search_right_image">
+	<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('fotolia-content')->toHtml(); ?>	
+	<div class="fotolia-image"><a href="http://www.fotolia.com" target="_blank"><img width="150" src="<?php echo $this->getSkinUrl('images/fotolia-logo.jpg'); ?>" alt=Fotolia"/></a></div>
+    <ul class="display-iamges">
+        <?php foreach($userGallery as $gallery): ?>
+        	<?php if($gallery['title'] != ''): ?>
+		
+            <li>
+                <div class="image">
+                    <a href="javascript:void();" onClick="MyWindow=window.open('http://www.fotolia.com/id/<?php echo $gallery["id"]; ?>','MyWindow','toolbar=no,location=yes,directories=yes,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=1000,height=800'); return false;">
+                        <img class="cat-image" src="<?php echo $gallery['thumbnail_url']?>" height="100" width="100"/ alt="<?php echo $gallery['title'];?>">
+                    </a>
+		  <!--  <a href="http://www.fotolia.com/id/<?php echo $gallery["id"]; ?>" class="openFotoliaGallery cboxElement">
+                        <img class="cat-image" src="<?php echo $gallery['thumbnail_url']?>" height="100" width="100"/ alt="<?php echo $gallery['title'];?>">
+                    </a>-->
+                </div>
+                
+                <!--div>
+                    <span><?php echo "<h3>".$gallery['title']."</h3>";?></span>				
+                </div-->
+            </li>
+            <?php endif; ?>
+        <?php endforeach; ?>
+</div>
+
+<div id="fotoliaGalleryDiv"></div>
+
+
+<script type="text/javascript">
+	
+	//jQuery(".openFotoliaGallery").colorbox({iframe:true, width:"1200px", height:"1700px"});
+	
+	function openFotliaImage(FotoliaUrl) {
+		
+		//jQuery("#fotoliaGalleryDiv").load(FotoliaUrl).dialog({height: 800, width:1000,modal: true});
+		
+		/*jQuery("#fotoliaGalleryDiv").dialog ({
+		  open : function (event)
+		  {
+		    jQuery(this).load (FotoliaUrl);
+		  },height: 800, width:1000,modal: true
+		});*/		
+		
+	}
+     
+</script>

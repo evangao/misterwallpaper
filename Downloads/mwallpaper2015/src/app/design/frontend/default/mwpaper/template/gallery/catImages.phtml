@@ -1,0 +1,57 @@
+<style>
+.cat-image{ cursor:pointer;}
+
+</style>
+
+<?php $categoryid = $this->getRequest()->getParam('cat');?>
+
+<?php $images = $this->getImages($categoryid); ?>
+<div>
+	<ul class="display-iamges">
+		<?php foreach($images as $Galimage):?>
+			<li>
+				<div class="galThumbImage">
+				<?php 
+				    $imageName = explode("/",$Galimage->getImage());
+				    $image = end($imageName);
+				    $_imageUrl = Mage::getBaseDir('media')."/gallery/image/".$image;
+				    $imageResized = Mage::getBaseDir('media')."/gallery".DS."resized".DS."thumb".DS.$image;
+				    if (!file_exists($imageResized)&&file_exists($_imageUrl)) :
+					$imageObj = new Varien_Image($_imageUrl);
+					$imageObj->constrainOnly(TRUE);
+					$imageObj->keepAspectRatio(TRUE);
+					$imageObj->keepFrame(FALSE);
+					$imageObj->resize(175,175);
+					$imageObj->save($imageResized);
+				    endif;
+				    $ExampleThumb = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)."gallery".DS."resized".DS."thumb".DS.$image;
+				
+				?>	
+					
+					
+				 <img class="cat-image" onClick="selectImage('<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$Galimage->getImage()?>');" src="<?php echo $ExampleThumb;?>"/>
+				</div>
+				<div>
+					<span><?php echo "<h3>".$Galimage->getName()."</h3>";?></span>				
+				</div>
+			</li>	
+		<?php endforeach;?>
+	</ul>
+
+</div>
+<script type="text/javascript">
+function selectImage(Url)
+{
+	//window.opener.document.getElementById('galleryImage').value=Url;
+	//window.close();
+	document.getElementById('galleryImage').value=Url;
+	UrlArray= Url.split('/');
+	jq("#selectedImage").html(UrlArray.last());
+	jq("#image").removeClass("required-entry");	
+	jq("#somediv").dialog( "close" );
+
+
+}
+</script>
+
+

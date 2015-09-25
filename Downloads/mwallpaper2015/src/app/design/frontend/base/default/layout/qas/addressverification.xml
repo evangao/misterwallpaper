@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * versions in the future. If you wish to customize this extension for your
+ * needs please refer to http://www.zeonsolutions.com for more information.
+ *
+ * @category    QAS
+ * @package     QAS_AddressVerification
+ * @copyright   Copyright (c) 2012 Zeon Solutions, Inc. All Rights Reserved.(http://www.zeonsolutions.com)
+ * @license     http://www.zeonsolutions.com/license/
+ */
+-->
+<layout version="0.1.0">
+	<!--
+	One page checkout main layout
+	-->
+    <checkout_onepage_index translate="label">
+        <reference name="head">
+            <action method="addItem" ifconfig="qas_addressverification/general/is_enabled"><type>skin_js</type><name>js/qas/addressverification.js</name></action>
+            <action method="addItem" ifconfig="qas_addressverification/general/is_enabled"><type>skin_css</type><name>css/qas/addressverification.css</name></action>
+            <block type="core/template" template="qas/addressverification/init.phtml" name="addressverification_init" />
+        </reference>
+        <reference name="before_body_end">
+            <block type="core/template" template="qas/addressverification/wrapper.phtml" name="addressverification_wrapper" />
+        </reference>
+    </checkout_onepage_index>
+	<!--
+	Customer account address edit page
+	-->
+    <customer_address_form translate="label">
+        <reference name="head">
+            <action method="addItem" ifconfig="qas_addressverification/general/is_enabled"><type>skin_js</type><name>js/qas/addressverification.js</name></action>
+            <action method="addItem" ifconfig="qas_addressverification/general/is_enabled"><type>skin_css</type><name>css/qas/addressverification.css</name></action>
+            <block type="core/template" template="qas/addressverification/init.phtml" name="addressverification_init" />
+        </reference>
+        <reference name="before_body_end">
+            <block type="core/template" template="qas/addressverification/wrapper.phtml" name="addressverification_wrapper" />
+        </reference>
+    </customer_address_form>
+</layout>

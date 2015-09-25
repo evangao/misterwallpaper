@@ -1,0 +1,97 @@
+<?xml version="1.0"?>   
+<layout version="0.1.0">
+<default>
+<reference name="head">
+<action method="addCss"><stylesheet>css/jquery-ui.css</stylesheet></action>	
+   <action method="addJs"><script>jquery-1.9.1.js</script></action>
+   <action method="addJs"><script>jquery.noconflict.js</script></action>
+   <action method="addJs"><script>jquery-ui.js</script></action>    		
+</reference>
+
+</default>   
+  <gallery_index_index>
+    <reference name="root">   
+      <action method="setTemplate"><template>page/2columns-right.phtml</template></action>   
+    </reference>   
+    <reference name="content">   
+      <block type="gallery/index" name="gallery_index" template="gallery/index.phtml"/>   
+    </reference>   
+  </gallery_index_index>
+ <gallery_index_displayimages>
+	<reference name="head">
+	   <action method="addCss"><stylesheet>colorbox/colorbox.css</stylesheet></action> 	
+	   <action method="addJs"><script>jquery.colorbox.js</script></action>
+	   <action method="addJs"><script>popup.js</script></action>	
+	</reference>		   
+    <reference name="root">   
+      <action method="setTemplate"><template>page/2columns-right.phtml</template></action>   
+    </reference>   
+    <reference name="content">   
+      <block type="gallery/displayImages" name="gallery_cat_images" template="gallery/displayImages.phtml"/>   
+    </reference>   
+  </gallery_index_displayimages>
+
+  <gallery_index_gallery>
+	<remove name="header"/>
+	<remove name="footer"/>
+	<remove name="before_body_end"/>
+	<remove name="social-block"/>
+	<reference name="root">   
+      	 <action method="setTemplate"><template>page/1column.phtml</template></action>   
+        </reference>
+        <reference name="content">   
+      <block type="gallery/gallery" name="gallery_popup" template="gallery/gallery.phtml" />   
+    </reference>  
+  </gallery_index_gallery>
+  <gallery_index_fotolia>
+	<remove name="header"/>
+	<remove name="footer"/>
+	<remove name="before_body_end"/>
+	<remove name="social-block"/>
+	<reference name="root">   
+      	 <action method="setTemplate"><template>page/1column.phtml</template></action>   
+        </reference>
+        <reference name="content">   
+      <block type="gallery/fotolia" name="gallery_fotolia" template="gallery/fotolia.phtml" />   
+    </reference>  
+  </gallery_index_fotolia>
+
+  <gallery_index_catimages>
+	<remove name="header"/>
+	<remove name="footer"/>
+	<remove name="before_body_end"/>
+	<reference name="root">   
+      	 <action method="setTemplate"><template>page/1column.phtml</template></action>   
+        </reference>
+        <reference name="content">   
+      <block type="gallery/catImages" name="gallery_popup" template="gallery/catImages.phtml" />   
+    </reference>  
+  </gallery_index_catimages>
+
+  
+  
+  <gallery_index_fotoliaimage>
+	<remove name="header"/>
+	<remove name="footer"/>
+	<remove name="before_body_end"/>
+	<reference name="root">   
+      	 <action method="setTemplate"><template>page/1column.phtml</template></action>   
+        </reference>
+        <reference name="content">   
+      <block type="gallery/fotoliaImage" name="fotolia_images" template="gallery/fotoliaImage.phtml" />   
+    </reference>  
+  </gallery_index_fotoliaimage>
+  
+  
+  <gallery_index_show>
+      <reference name="root">
+          <action method="setTemplate">
+              <template>page/1column.phtml</template>
+          </action>
+      </reference>
+
+        <reference name="content">   
+      <block type="gallery/fotoliaImage" name="fotolia_images" template="gallery/fotoliaImage.phtml" />   
+    </reference>  
+  </gallery_index_show>
+  </layout>	

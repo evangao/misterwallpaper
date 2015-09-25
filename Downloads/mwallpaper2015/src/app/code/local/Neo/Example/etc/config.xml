@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Neo_Example>
+      <version>0.1.0</version>
+    </Neo_Example>
+  </modules>
+  <frontend>
+    <routers>
+      <example>
+        <use>standard</use>
+          <args>
+            <module>Neo_Example</module>
+            <frontName>example</frontName>
+          </args>
+      </example>
+    </routers>
+		<layout>
+		  <updates>
+			<example>
+			  <file>example.xml</file>
+			</example>
+		  </updates>
+		</layout>
+  </frontend>
+  <global>
+    <helpers>
+      <example>
+        <class>Neo_Example_Helper</class>
+      </example>
+    </helpers>
+	<blocks>
+	  <example>
+		<class>Neo_Example_Block</class>
+	  </example>
+	</blocks>
+	<models>
+	  <example>
+		<class>Neo_Example_Model</class>
+		<resourceModel>example_mysql4</resourceModel>
+	  </example>
+	  <example_mysql4>
+		<class>Neo_Example_Model_Mysql4</class>
+		<entities>		  
+			  <example>
+				<table>neo_examples</table>
+			  </example>		  
+			  <examplecategory>
+				<table>neo_example_category</table>
+			  </examplecategory>
+        </entities>
+	  </example_mysql4>
+	</models>
+	<resources>
+	  <example_setup>
+		<setup>
+		  <module>Neo_Example</module>
+		</setup>
+		<connection>
+		  <use>core_setup</use>
+		</connection>
+	  </example_setup>
+	  <example_write>
+		<connection>
+		  <use>core_write</use>
+		</connection>
+	  </example_write>
+	  <example_read>
+		<connection>
+		  <use>core_read</use>
+		</connection>
+	  </example_read>
+	</resources>
+  </global>
+  <admin>
+	<routers>
+	  <example>
+	    <use>admin</use>
+		<args>
+		  <module>Neo_Example</module>
+		  <frontName>example</frontName>
+		</args>
+	  </example>
+	</routers>
+  </admin>
+  <adminhtml>
+	<menu>
+	  <example module="example">
+		<title>Example</title>
+		<sort_order>100</sort_order>
+		<children>
+		  <example module="example">
+		    <title>Manage Example</title>
+			<sort_order>0</sort_order>
+			<action>example/adminhtml_example</action>
+		  </example>
+		  <examplecategory module="example">
+		    <title>Manage Examplecategory</title>
+			<sort_order>10</sort_order>
+			<action>example/adminhtml_examplecategory</action>
+		  </examplecategory>
+		</children>
+	  </example>
+	</menu>
+	<acl>
+	  <resources>
+		<all>
+		  <title>Allow Everything</title>
+		</all>
+		<admin>
+		  <children>
+			<example translate="title" module="example">
+			  <title>Example</title>
+			  <sort_order>1000</sort_order>
+			  <children>
+		  <example translate="title">
+			<title>Manage Example</title>
+			<sort_order>0</sort_order>
+		  </example>
+		  <examplecategory translate="title">
+			<title>Manage Examplecategory</title>
+			<sort_order>10</sort_order>
+		  </examplecategory>
+			  </children>
+			</example>
+		  </children>
+		</admin>
+	  </resources>
+	</acl>
+	<layout>
+	  <updates>
+		<example>
+		  <file>example.xml</file>
+		</example>
+	  </updates>
+	</layout>
+  </adminhtml>
+</config> 

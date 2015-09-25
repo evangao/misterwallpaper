@@ -1,0 +1,31 @@
+<?php
+require_once 'fotolia/fotolia-api.php';
+
+//$api = new Fotolia_Api('5XEVph1BVGHkZz3VChlwtIHFsUW9gUMc');
+
+$api 		 = new Fotolia_Api('b55etmZ7eCuWnpkiTaT1cpFeGUfImwMD');
+
+$session 	 = $api->loginUser('fotomlia','meherhim23');
+
+
+$tags        = $api->getTags();
+$count       = 1;  
+
+
+?>
+
+<!--------------------------->
+<div>
+                    
+    <div class="block-content">
+        <ul class="tags-list">
+        	<?php foreach($tags as $tag): ?>
+            	<li><a href="javascript:void();" onClick="MyWindow=window.open('http://www.fotolia.com/search?k=<?php echo $tag['name']; ?>','MyWindow','toolbar=no,location=yes,directories=yes,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=1000,height=600'); return false;" class="tag<?php echo $count; ?>"><?php echo $tag['name']; ?></a></li>
+            <?php $count++;
+			      if($count == 45) break;
+		    ?>		  	
+            <?php endforeach; ?>            
+        </ul>
+    </div>
+</div>
+<!--------------------------->

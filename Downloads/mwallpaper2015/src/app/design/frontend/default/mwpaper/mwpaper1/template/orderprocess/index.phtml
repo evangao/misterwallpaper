@@ -1,0 +1,382 @@
+	<?php $image = Mage::registry('image');?>
+<?php $size = $this->getRequest()->getParam('size');?>
+
+<?php if($size =="custom"):?>
+        <?php
+            $height = trim($this->getRequest()->getParam('height'));
+            $width  = trim($this->getRequest()->getParam('width'));
+	    $infoHeight = $height;
+	    $infoWidth  = $width;
+	    
+	    $sqm = ((int)$width*(int)$height)/10000;
+	    
+	   
+	    $_customPrices = Mage::getModel('customprice/customprice')->getCollection()->setOrder('min','asc');
+	    $price = 0.0;
+	    foreach($_customPrices as $customPrice):
+		$minSqm = (float)$customPrice->getMin();
+		$maxSqm = (float)$customPrice->getMax();
+		if($sqm > $minSqm && $sqm <= $maxSqm):		    
+		    $price = $sqm*(float)$customPrice->getPrice();
+		    break;
+		endif;
+	    endforeach;
+	    Mage::getSingleton('core/session')->setCustomPrice($price);
+	    
+		
+        ?>
+<?php else: ?>
+        <?php
+            $sizeArray = explode("x",$size);
+            $width  = trim($sizeArray[0]); 
+            $height = trim($sizeArray[1]);
+	    $infoHeight = $height;
+	    $infoWidth  = $width; 	 	
+		
+        ?>
+<?php endif;?>
+<?php
+
+	$ImageInformation = getimagesize($image);
+	$imageWidth  = $ImageInformation[0];
+	$imageHeight = $ImageInformation[1];
+	$CropOrignalWidth  = $width;
+	$CropOrignalHeight = $height; 	
+	$width = $width*38;
+	$height = $height*38;
+	
+	$imageFits ="";
+	$_resolutionsWidth = Mage::getModel('resolution/resolution')->getCollection()->addFieldToFilter('status',1)->setOrder('width_px','ASC');
+	
+
+	$prev=NULL;
+	foreach($_resolutionsWidth as $rw):
+		
+		if($width > $rw->getWidthPx()){
+					
+			if($prev!=NULL)
+			{
+				
+				echo $maxAllovedWidth = $prev->getWidthCm()+0.09575;  	
+			  
+				if($infoWidth > $maxAllovedWidth)
+				{
+					
+					$imageFits = "Not Quite";
+
+				}
+				break;
+			}else{
+				
+				$maxAllovedWidth = $rw->getWidthCm()+0.09575;  	
+			  
+				if($infoWidth > $maxAllovedWidth)
+				{
+					//echo $maxAllovedWidth."   ".$infoWidth."  ";
+
+					$imageFits = "Not Quite";
+
+				}
+				break;
+			}
+		}
+		$prev=$rw;
+	endforeach;
+	$_resolutionsheight = Mage::getModel('resolution/resolution')->getCollection()->addFieldToFilter('status',1)->setOrder('height_px','ASC');
+	$prev=NULL;
+	foreach($_resolutionsheight as $rw):
+		
+		if($height > $rw->getHeightPx()){
+			if($prev!=NULL)
+			{
+				$maxAllovedHeight = $rw->getHeightCm()+0.09575;  
+				
+				if($infoHeight>$maxAllovedHeight){
+					
+					$imageFits = "Not Quite";
+				}
+			}else{
+
+
+		
+			}
+			
+		}
+
+		$prev=$rw;
+	endforeach;
+
+	$imageRation =  $imageWidth/$imageHeight;
+	if($imageRation>0){
+	    $divWidth  = 600;
+	    $divHeight = ($divWidth*$imageHeight)/$imageWidth;
+	}else{
+	    $divHeight  = 600;
+	    $divWidth = ($divHeight*$imageWidth)/$imageHeight;
+	}
+	
+	
+	if($imageRation>0){
+	    $previewWidth  = 300;
+	    $previewHeight = ($previewWidth*$imageHeight)/$imageWidth;
+	}else{
+	    $previewHeight  = 300;
+	    $previewWidth = ($previewHeight*$imageWidth)/$imageHeight;
+	}
+	
+	
+	//$width = ($width*600)/$imageWidth;
+	//$height = ($height*500)/$imageHeight;
+	
+	
+	$width = ($width*$divWidth)/$imageWidth;
+	$height = ($height*$divHeight)/$imageHeight;
+	
+	if($width > $divWidth){$imageFits="Not Quite"; $width=$divWidth;}
+	if($height > $divHeight){$imageFits="Not Quite"; $height=$divHeight;}
+	
+	if($imageFits==""){
+		$imageFits="Yes";
+
+	}
+
+?>
+
+<?php
+	//new calculation
+	$infoWidth1  =  $infoWidth/10; 
+	$infoHeight1 =  $infoHeight/10;
+	
+	$divWidth    = $imageWidth/10;
+	$divHeight   = $imageHeight/10;
+	$width		 = $infoWidth1 * 38;
+	$height 	 = $infoHeight1 * 38;
+	$aspw		 = ($imageWidth/10)/$infoWidth;
+	$asph		 = ($imageHeight/10)/$infoHeight;
+	//echo $height;
+	//echo $width;
+	if($aspw <1) {
+		//$width    = $divWidth;
+		$minWidth = $divWidth;
+	}
+	else {
+		$minWidth = '80';
+		//$width = $divWidth/$aspw;
+	}
+	if($asph <1 ) {
+		//$height    = $divHeight;
+		$minHeight = $divHeight;
+	}
+	else {
+		$minHeight = '80';
+		//$height = $divHeight/$aspw;
+	}
+	if($infoHeight >= "270") {
+	   $previewHeight = $height-150;
+	}
+	//else if($height >  )
+	else {
+		$previewHeight = $height ;
+	}
+	if($infoWidth >= "270") {
+	     $previewWidth  = $width -200;
+	}
+	else if($infoWidth) {
+		$previewWidth  = $width; 
+	}
+	
+	$aspectRatio = $width/$height;
+?>
+
+<?php
+
+    //$image ="1373439960Home-Wall-Papers.jpg";
+    //$width  = 60; 
+    //$height = 250;
+    //$jcropHeight = 38 * $height;
+    //$jcropWidth  = 38 * $width;
+?>
+
+<div style="width:100%;overflow: hidden;">
+    
+    <img id="target" src="<?php echo $image ?>" title="crop it" height="<?php echo $divHeight;?>" width="<?php echo $divWidth?>" /> 
+    <div class="image-info">
+
+		<div class="info-container">
+		<div class="info">
+			<p><h3>Image Quality Check</h3></p>	
+		</div>
+		<div class="info-value">
+ 			<p><h5><?php echo Mage::registry('quality')?> Picture quality</h5></p>
+		</div>
+		</div>
+		<div class="info-container">
+		<div class="info">
+			<p><h4>Image Resolution</h4></p>	
+		</div>
+		<div class="info-value">
+ 			<p><h6><?php echo Mage::registry('image-size')?> pixels</h6></p>
+		</div>
+		</div>
+		<!--div class="info-container">
+		<div class="info">
+			<p><h4>Image fits size selected?</h4></p>	
+		</div>
+		<div class="info-value">
+ 			<p><h6><?php echo $imageFits;?></h6></p>
+		</div>
+		</div-->
+		<div class="info-container">
+		<div class="info">
+			<p><h4>Your print size will be</h4></p>	
+		</div>
+		<div class="info-value">
+ 			<p><h6><?php echo $infoWidth." x ".$infoHeight." cm";?></h6></p>
+		</div>
+		</div>
+		<div class="info-container">
+		<div class="info">
+			<p><h4>Cropped Image in pixels</h4></p>	
+		</div>
+		<div class="info-value">
+		<p> <input type="text" id="w_s" name="w" />
+                <input type="text" id="h_s" name="h" />
+            </p>
+		</div
+		</div>
+		</div>		
+	</div>	
+</div>
+<div>
+    <!--div id="preview-pane" <?php if($infoWidth < 50): ?> style="right:-53% !important" <?php endif; ?>>
+    <div class="preview-container" style="width:<?php echo $previewWidth;?>px !important; height:<?php echo $previewHeight;?>px !important;  " >
+      <img src="<?php echo $image ?>" class="jcrop-preview" alt="Preview" />
+    </div>
+    </div-->
+		
+
+</div>
+
+
+
+<form action="<?php echo Mage::getBaseUrl()?>orderprocess/index/crop" method="POST" name="orderForm" id="orderForm" enctype="multipart/form-data">
+
+	<input type="hidden" name="galleryImage" id="galleryImage" value="<?php echo $image;?>">
+	<input type="hidden" name="size"  value="<?php echo $this->getRequest()->getParam('size')?>">
+
+	<input class="order-input" type="hidden" name="width" <?php if($this->getRequest()->getParam('size')=='custom'){ ?> value="<?php echo $this->getRequest()->getParam('width');?>" <?php } ?>>
+	<input class="order-input" type="hidden"  name="height" <?php if($this->getRequest()->getParam('size')=='custom'){ ?> value="<?php echo $this->getRequest()->getParam('height');?>" <?php } ?>>
+	
+	
+	
+	<button class="order-button" type="submit" name="submit" value="Upload & Check Picture">Reset</button>
+
+</form>
+
+
+<form action="<?php echo Mage::getBaseUrl()?>orderprocess/index/create" method="post" onsubmit="return checkCoords();">
+    <input type="hidden" id="x" name="x" />
+    <input type="hidden" id="y" name="y" />
+    <input type="hidden" id="w" name="w" />
+    <input type="hidden" id="h" name="h" />
+    <input type="hidden" name="image" id="image" value="<?php echo $image?>" />
+    <input type="hidden" name="imageWidth" id="imageWidth" value="<?php echo $width;?>">
+    <input type="hidden" name="imageHeight" id="imageHeight" value="<?php echo $height;?>">
+    <input type="hidden" name="CropOrignalWidth" id="imageHeight" value="<?php echo $CropOrignalWidth;?>">
+    <input type="hidden" name="CropOrignalHeight" id="imageHeight" value="<?php echo $CropOrignalHeight;?>">	
+    <input type="hidden" name="size" value="<?php echo $size;?>" />
+    <input type="hidden" name="infoHeight" value="<?php echo $infoHeight; ?>" >
+    <input type="hidden" name="infoWidth" value="<?php echo $infoWidth; ?>" >
+    <input type="hidden" name="widthRatio"  value="<?php echo $divWidth;?>">
+    <input type="hidden"  name="heightRatio" value="<?php echo $divHeight?>">
+    <input type="submit" value="Crop Image" class="btn btn-large btn-inverse" />
+</form>
+
+
+
+
+<script type="text/javascript">
+    
+    jQuery.noConflict();
+    
+    //jQuery(document).ready(function() {
+       //jQuery('#target').Jcrop({ minSize:[<?php echo $width;?>,<?php echo $height;?>], maxSize:[<?php echo $width;?>,<?php echo $height;?>]});
+    jQuery(document).ready(function($) {
+    var cal = new Object;
+    cal.w = '<?php echo $width;?>';
+    cal.h = '<?php echo $height;?>';
+   //	 updatePreview(cal); //initalize the call on load of the page to initialize the cropping
+   
+    // Create variables (in this scope) to hold the API and image size
+    var jcrop_api,
+        boundx,
+        boundy,
+
+        // Grab some information about the preview pane
+        $preview = $('#preview-pane'),
+        $pcnt = $('#preview-pane .preview-container'),
+        $pimg = $('#preview-pane .preview-container img'),
+
+        xsize = $pcnt.width(),
+        ysize = $pcnt.height();
+     
+   // console.log('init',[xsize,ysize]);
+    $('#target').Jcrop({
+      onChange: updatePreview,
+      onSelect: updatePreview,
+      aspectRatio: <?php echo $aspectRatio; ?>,
+      minSize:[20,20],maxSize:[<?php echo $width;?>,<?php echo $height;?>],setSelect: [ 0, 0, <?php echo $width;?>,<?php echo $height;?>]
+    },function(){
+      // Use the API to get the real image size
+      var bounds = this.getBounds();
+      boundx = bounds[0];
+      boundy = bounds[1];
+      // Store the API in the jcrop_api variable
+      jcrop_api = this;
+      
+      jcrop_api.animateTo([ 0, 0, <?php echo $width;?>,<?php echo $height;?>]);
+
+      // Move the preview into the jcrop container for css positioning
+      $preview.appendTo(jcrop_api.ui.holder);
+    });
+ 
+    function updatePreview(c)
+    {
+   
+      if (parseInt(c.w) > 0)
+      {
+        var rx = xsize / c.w;
+        var ry = ysize / c.h;
+
+        $pimg.css({
+          width: Math.round(rx * boundx) + 'px',
+          height: Math.round(ry * boundy) + 'px',
+          marginLeft: '-' + Math.round(rx * c.x) + 'px',
+          marginTop: '-' + Math.round(ry * c.y) + 'px'
+        });
+      }
+      
+      $('#x').val(c.x);
+      $('#y').val(c.y);
+      $('#w').val(c.w);
+      $('#h').val(c.h);
+      $('#w_s').val(Math.round(c.w*10));
+      $('#h_s').val(Math.round(c.h*10));
+      
+    };
+    
+    function updateLoad() {
+  //  alert("hii");
+ }
+    
+    function checkCoords()
+    {
+        if (parseInt($('#w').val())) return true;
+        alert('Please select a crop region then press submit.');
+        return false;
+    };
+  });
+    
+    //});
+</script>
+

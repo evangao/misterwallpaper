@@ -1,0 +1,56 @@
+
+<h4>Select from category</h4>
+<div class="galary_category">
+	<?php $categories = Mage::getModel('gallery/category')->getCollection()->addFieldToFilter('status',array('eq'=>1))?>
+	<ul>	
+	<?php foreach($categories as $category):?>
+		<?php $image = $this->getCategoryImages($category->getCategoryId())?>
+		<li class="cat-div">
+		<div class="cat-image">
+			
+			<a href="javascript:loadCat('<?php echo Mage::getBaseUrl()?>gallery/index/catImages/cat/<?php echo $category->getCategoryId()?>');">
+				<?php 
+				    $imageName = explode("/",$image);
+				    $image = end($imageName);
+				    $_imageUrl = Mage::getBaseDir('media')."/gallery/image/".$image;
+				    $imageResized = Mage::getBaseDir('media')."/gallery".DS."resized".DS."galleryMainThumb".DS.$image;
+				    if (!file_exists($imageResized)&&file_exists($_imageUrl)) :
+					$imageObj = new Varien_Image($_imageUrl);
+					$imageObj->constrainOnly(TRUE);
+					$imageObj->keepAspectRatio(TRUE);
+					$imageObj->keepFrame(FALSE);
+					$imageObj->resize(305,265);
+					$imageObj->save($imageResized);
+				    endif;
+				    $ExampleThumb = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)."gallery".DS."resized".DS."galleryMainThumb".DS.$image;
+				
+				?>
+				<img src="<?php echo $ExampleThumb?>" alt="Image"  />
+			</a>
+		</div>
+		<div class="cat-name">
+		<span><a href="javascript:loadCat('<?php echo Mage::getBaseUrl()?>gallery/index/catImages/cat/<?php echo $category->getCategoryId()?>');"><h3><?php echo $category->getCategoryName()?></h3></a></span>		
+		</div>
+		<li>
+	<?php endforeach;?>
+		<!--li class="cat-div">
+			<div class="cat-image">
+			
+				<a href="javascript:loadCat('<?php echo Mage::getBaseUrl()?>gallery/index/fotolia');"><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)?>fotolia.jpg" alt="fotolia Image" height="300" width="300" /></a>
+			</div>
+			<div class="cat-name">
+				<span><a href="javascript:loadCat('<?php echo Mage::getBaseUrl()?>gallery/index/fotolia');"><h3><?php echo $this->__('Fotolia Gallary')?></h3></a></span>		
+			</div>
+		<li-->
+	
+	<ul>
+</div>
+
+<script>
+function loadCat(url){
+
+	jq("#somediv").load(url);
+}
+
+</script> 
+

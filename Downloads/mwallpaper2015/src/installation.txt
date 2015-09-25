@@ -1,0 +1,25 @@
+QASAddressVerification-0.1.6
+
+Version 0.1.6
+
+Extension page: http://www.magentocommerce.com/magento-connect/global-address-verification-9218.html
+
+This document is intended as a technical resource for the installation, setup and use of the QAS Address Verification Module for Magento. QAS is a leading provider of address data quality software and services. The QAS software suites of products are designed for Real-time address verification.
+
+
+Installation steps:
+1. Copy all content from QASAddressVerification-0.1.6/app inside magento app folder.
+2. Copy all content from QASAddressVerification-0.1.6/skin inside magento skin folder.
+3. Copy qaswsdl folder from QASAddressVerification-0.1.6/ inside magento root path. It contains all wsdl require for QAS.
+4. Refresh the magento cache and checked the qas setting inside system --> configuration --> {Left naviagation} QAS --> QAS Address Verification 
+5. If page give 404 not found OR auth error then log out from admin and login again.
+6. Set the username & password provided by QAS team. Keep the setting Use local WSDL = YES
+
+
+
+Error & Troubleshooting 
+1. Sometime if server unable to communicate with the QAS server https://ws2.ondemand.qas.com/ProOnDemand/V3/ProOnDemandService.asmx due to some internal server firewall restriction.
+2. It can be verify by using the test script from browser using URL: http://{Magento Project Name}/qaswsdl/testqas.php It give the error message when it’s failed to connect QAS server. In such case you have to check server firewall setting and do the necessary changed to allow communication with QAS server.
+3. Connection with QAS can also be test using command prompt at server using curl command like: curl -v ws2.ondemand.qas.com/ProOnDemand/V3/ProOnDemandService.asmx
+4. Please check /var/log/AddressVerification.log in case of any other error.
+

@@ -1,0 +1,102 @@
+<?php
+
+require_once 'fotolia/fotolia-api.php';
+
+//$api = new Fotolia_Api('5XEVph1BVGHkZz3VChlwtIHFsUW9gUMc');
+$api = new Fotolia_Api('b55etmZ7eCuWnpkiTaT1cpFeGUfImwMD');
+$searchName = $this->getRequest()->getParam("name");
+
+// searching for files
+$results = $api->getSearchResults(
+    array(
+        'words' => $searchName,
+        'language_id' => Fotolia_Api::LANGUAGE_ID_EN_US,
+        
+    ));
+
+//printf("Found %d results", $results['nb_results']);
+
+
+
+// download comp file
+//$comp_dl_data = $api->getMediaComp(35957426);
+//$api->downloadMediaComp($comp_dl_data['url'], '/tmp/comp.jpg');
+
+// loggin in and retrieving user data
+//$api->loginUser('shankar23', 'shankar123');
+
+
+
+//print_r($api->getUserData());
+//print_r($api->getMediaGalleries());
+//var_dump($api->getGalleries());
+// purchasing and downloading a file
+//$dl_data = $api->getMedia(35957426, 'XS');
+//$api->downloadMedia($dl_data['url'], '/tmp/' . $dl_data['name']);
+
+
+?>    
+   
+    
+
+<div>
+    <ul class="display-iamges">
+        <?php foreach ($results as $key => $gallery): ?>
+            <?php if (is_numeric($key)) {?>
+            
+           <?php  //var_dump($gallery);?>
+           <?php //echo $gallery['thumbnail_400_url']?>
+            <li>
+                <div class="image">
+                    <a href="javascript:selectFotoliaImage('<?php echo $gallery['id']?>');">
+                        <img class="cat-image" src="<?php echo $gallery['thumbnail_400_url']?>" height="200" width="200"/>
+                    </a>
+                </div>
+                
+                <div>
+                    <span><?php echo "<h3>".$searchName."</h3>";?></span>				
+                </div>
+            </li>
+            <?php }?>
+        <?php endforeach; ?>
+</div>
+
+<script type="text/javascript">
+    function selectFotoliaImage(Url)
+    {
+        
+       // alert(Url);
+       /*( var $j = jQuery.noConflict();*/
+       
+        var request = jq.ajax({
+            url: "<?php echo Mage::getBaseUrl()?>gallery/fotolia",
+            type: "POST",
+            data: {id : Url},
+            dataType: "html"
+        });
+        request.done(function(msg) {
+            msg = jq.trim(msg);
+            imageUrl = "<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)?>fotolia/images/"+msg;
+            document.getElementById('galleryImage').value=imageUrl;
+            jq("#selectedImage").html(msg);
+            jq("#image").removeClass("required-entry");	
+            jq("#somediv").dialog( "close" );
+        });
+        
+        
+	<?php
+            //$comp_dl_data = $api->getMediaComp(35957426);
+            //$api->downloadMediaComp($comp_dl_data['url'], Mage::getBaseDir().'/media/fotolia/images/'.time().'.jpg');
+        ?>
+          //  UrlArray= Url.split('/');
+	//jq("#selectedImage").html(UrlArray.last());
+	//jq("#image").removeClass("required-entry");	
+	//jq("#somediv").dialog( "close" );
+       
+       
+    }
+    
+    
+</script>
+
+

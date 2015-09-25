@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Neo_Gallery>
+      <version>0.1.0</version>
+    </Neo_Gallery>
+  </modules>
+  <frontend>
+    <routers>
+      <gallery>
+        <use>standard</use>
+          <args>
+            <module>Neo_Gallery</module>
+            <frontName>gallery</frontName>
+          </args>
+      </gallery>
+    </routers>
+		<layout>
+		  <updates>
+			<gallery>
+			  <file>gallery.xml</file>
+			</gallery>
+		  </updates>
+		</layout>
+  </frontend>
+  <global>
+    <helpers>
+      <gallery>
+        <class>Neo_Gallery_Helper</class>
+      </gallery>
+    </helpers>
+	<blocks>
+	  <gallery>
+		<class>Neo_Gallery_Block</class>
+	  </gallery>
+	</blocks>
+	<models>
+	  <gallery>
+		<class>Neo_Gallery_Model</class>
+		<resourceModel>gallery_mysql4</resourceModel>
+	  </gallery>
+	  <gallery_mysql4>
+		<class>Neo_Gallery_Model_Mysql4</class>
+		<entities>		  
+			  <image>
+				<table>neo_gallery_image</table>
+			  </image>		  
+			  <category>
+				<table>neo_gallery_category</table>
+			  </category>
+        </entities>
+	  </gallery_mysql4>
+	</models>
+	<resources>
+	  <gallery_setup>
+		<setup>
+		  <module>Neo_Gallery</module>
+		</setup>
+		<connection>
+		  <use>core_setup</use>
+		</connection>
+	  </gallery_setup>
+	  <gallery_write>
+		<connection>
+		  <use>core_write</use>
+		</connection>
+	  </gallery_write>
+	  <gallery_read>
+		<connection>
+		  <use>core_read</use>
+		</connection>
+	  </gallery_read>
+	</resources>
+  </global>
+  <admin>
+	<routers>
+	  <gallery>
+	    <use>admin</use>
+		<args>
+		  <module>Neo_Gallery</module>
+		  <frontName>gallery</frontName>
+		</args>
+	  </gallery>
+	</routers>
+  </admin>
+  <adminhtml>
+	<menu>
+	  <gallery module="gallery">
+		<title>Gallery</title>
+		<sort_order>100</sort_order>
+		<children>
+		  <!--<gallerybackend module="gallery">
+			<title>Manage Gallary</title>
+			<sort_order>0</sort_order>
+			<action>gallery/adminhtml_gallerybackend</action>
+		  </gallerybackend>-->
+		  <image module="gallery">
+		    <title>Manage Images</title>
+			<sort_order>0</sort_order>
+			<action>gallery/adminhtml_image</action>
+		  </image>
+		  <category module="gallery">
+		    <title>Manage Categories</title>
+			<sort_order>10</sort_order>
+			<action>gallery/adminhtml_category</action>
+		  </category>
+		</children>
+	  </gallery>
+	</menu>
+	<acl>
+	  <resources>
+		<all>
+		  <title>Allow Everything</title>
+		</all>
+		<admin>
+		  <children>
+			<gallery translate="title" module="gallery">
+			  <title>Gallery</title>
+			  <sort_order>1000</sort_order>
+			  <children>
+		  <!--<gallerybackend translate="title">
+			<title>Manage Gallary</title>
+		  </gallerybackend>-->
+		  <image translate="title">
+			<title>Manage Images</title>
+			<sort_order>0</sort_order>
+		  </image>
+		  <category translate="title">
+			<title>Manage Categories</title>
+			<sort_order>10</sort_order>
+		  </category>
+			  </children>
+			</gallery>
+		  </children>
+		</admin>
+	  </resources>
+	</acl>
+	<layout>
+	  <updates>
+		<gallery>
+		  <file>gallery.xml</file>
+		</gallery>
+	  </updates>
+	</layout>
+  </adminhtml>
+</config> 

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>   
+<layout version="0.1.0">
+  <default>
+    <reference name="right">   
+      <block type="blocks/right" name="blocks_right" before="-" template="blocks/right.phtml"/>   
+    </reference>
+    <reference name="top.links">
+        <action method="addLink" translate="label title" module="blocks"><label>Home</label><url helper="blocks/getHomeUrl"/><title>Home</title><prepare/><urlParams/><position>1</position></action>
+    </reference>
+	<reference name="header">
+		<block type="core/template" name="social-block" template="blocks/social-block.phtml"></block>
+	</reference>
+  </default>
+  
+  
+  <blocks_index_index>   
+    <reference name="root">   
+      <action method="setTemplate"><template>page/2columns-right.phtml</template></action>   
+    </reference>
+    <reference name="right">   
+      <block type="blocks/right" name="blocks_right" template="blocks/right.phtml"/>   
+    </reference>   
+    <reference name="content">   
+      <block type="blocks/index" name="blocks_index" template="blocks/index.phtml"/>   
+    </reference>   
+  </blocks_index_index>   
+</layout>   
+	

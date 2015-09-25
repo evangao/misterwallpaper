@@ -1,0 +1,112 @@
+<?php
+/**
+ * @category    Fishpig
+ * @package     Fishpig_Wordpress
+ * @license     http://fishpig.co.uk/license.txt
+ * @author      Ben Tideswell <help@fishpig.co.uk>
+ */
+?>
+<?php $post = $this->getPost() ?>
+<?php //var_dump($post)?>
+<?php $idea_page  = Mage::getBaseUrl()."blog/category/ideas/";?>
+<?php if($idea_page == $this->helper('core/url')->getCurrentUrl()) { ?>
+
+<div class="ideas_row">
+	<div class="ideas_img">
+	<?php if ($featuredImage = $post->getFeaturedImage()): ?>
+				
+		<a href="<?php echo $post->getPermalink() ?>" title="<?php echo $this->escapeHtml($post->getPostTitle()) ?>"><img class="main_image alignnone size-medium wp-image-8" width="175" src="<?php echo $featuredImage->getAvailableImage() ?>" alt="<?php echo $this->escapeHtml($post->getPostTitle()) ?>"/></a>
+				
+	<?php endif; ?>
+    </div>
+    <h3><?php echo $this->escapeHtml($post->getPostTitle()) ?></h3>
+    <a href="<?php echo $post->getPermalink() ?>" class="more"></a></h3>
+    
+    <p><div class="idea-content">
+	<?php $post_length = strlen($post->getPostContent()); ?>
+	<?php if($post_length<=500){ ?>
+		<?php echo $post->getPostContent() ?>
+	<?php }else{ ?>
+		<?php echo substr($post->getPostContent(),0,500)." ..."; ?>
+	<?php }?>
+	 <a href="<?php echo $post->getPermalink() ?>" class="read_more">more</a>
+	</div>
+    </p>
+    
+</div>
+
+<?php }else{ ?>
+
+<div class="post-list-item">
+	<div class="post-entry entry<?php if ($post->getFeaturedImage): ?> post-entry-with-image<?php endif; ?>">
+		<?php if ($post->isViewableForVisitor()): ?>
+			<?php if ($featuredImage = $post->getFeaturedImage()): ?>
+				<div class="post_image">
+					<a href="<?php echo $post->getPermalink() ?>" title="<?php echo $this->escapeHtml($post->getPostTitle()) ?>"><img class="main_image alignnone size-medium wp-image-8" width="175" src="<?php echo $featuredImage->getAvailableImage() ?>" alt="<?php echo $this->escapeHtml($post->getPostTitle()) ?>"/></a>
+				</div>
+			<?php endif; ?>
+			<div class="post-meta details">
+				<?php $user=Mage::getModel('wordpress/user')->load($post->getPostAuthor()); ?>	
+                            <!--<span class="post_author"><?php echo ucwords($user->getDisplayName());?></span>
+                            <span class="date">- <?php echo date('F j, Y',strtotime($post->getPostDate())); ?></span>-->
+                            <div class="post_comments">
+				
+				<?php //$commentCollection = Mage::getModel('wordpress/post_comment')->getCollection()->addFieldToFilter('comment_post_Id',$post->getId())?>
+					
+                                <a href="<?php echo $post->getPermalink() ?>"><span><?php echo $post->getCommentCount()?></span> Comments</a>
+                            </div>                                                    
+                        </div>
+			<h2><a title="<?php echo $this->escapeHtml($post->getPostTitle()) ?>" href="<?php echo $post->getPermalink() ?>"><?php echo $this->escapeHtml($post->getPostTitle()) ?></a></h2>
+			 
+			 <div class="no-image">
+			 <p class="post_text">     
+			<?php if ($this->displayExcerptInFeed() || $post->hasMoreTag()): ?>
+				<?php echo $post->getPostExcerpt() ?>
+			<?php else: ?>
+				<?php //echo $post->getPostContent() ?>
+				
+					<?php $post_length = strlen($post->getPostContent()); ?>
+					<?php if($post_length<=500){ ?>
+						<?php echo $post->getPostContent() ?>
+					<?php }else{ ?>
+						<?php echo substr($post->getPostContent(),0,500)." ..."; ?>
+					<?php }?> 	
+				
+			<?php endif; ?>
+			</p>
+			</div>	
+                   	<p><a class="read_more" href="<?php echo $post->getPermalink() ?>">Read More</a></p>
+		<?php else: ?>
+			<?php echo $this->getPasswordProtectHtml($post) ?>
+		<?php endif; ?>
+	</div>
+	<?php //echo $this->getMetaBlock()->setPost($post)->toHtml() ?>
+	<?php if ($this->helper('wordpress/plugin_shareThis')->canDisplayOnPost()): ?>
+		<div class="sharethis-icons" id="sharethis-icons-<?php echo $post->getId() ?>"><?php echo $this->helper('wordpress/plugin_shareThis')->getIcons($post) ?></div>
+	<?php endif; ?>
+</div>
+<?php } ?>
+
+
+
+<style>
+ .no-image img{ display: none !important;}
+ .idea-content img{display: none !important;}
+ .idea-content{ background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #DCDCDB;
+    color: #232D3B;
+    float: right;
+    font-family: 'MyriadProRegular';
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 20px;
+    margin: 0 0 14px;
+    padding: 15px 14px;
+    text-align: justify;
+    width: 460px;}
+   .idea-content a.read_more {
+    color: #EB4900;
+ }
+</style>
+
+

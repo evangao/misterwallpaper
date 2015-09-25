@@ -1,0 +1,25 @@
+<?xml version="1.0"?>   
+<layout version="0.1.0">   
+  <example_index_index>   
+    <reference name="root">   
+      <action method="setTemplate"><template>page/1column.phtml</template></action>   
+    </reference>   
+    <reference name="content">   
+      <block type="example/index" name="example_index" template="example/index.phtml"/>   
+    </reference>   
+  </example_index_index>
+  <example_index_displayimages>
+	<reference name="head">
+	   <action method="addCss"><stylesheet>colorbox/colorbox.css</stylesheet></action> 	
+	   <action method="addJs"><script>jquery.colorbox.js</script></action>
+	   <action method="addJs"><script>popup.js</script></action>	
+	</reference>		   
+    <reference name="root">   
+      <action method="setTemplate"><template>page/2columns-right.phtml</template></action>   
+    </reference>   
+    <reference name="content">   
+      <block type="example/displayImages" name="example_cat_images" template="example/displayImages.phtml"/>   
+    </reference>   
+  </example_index_displayimages>
+</layout>   
+	

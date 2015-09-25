@@ -1,0 +1,139 @@
+
+<?php
+
+$image_types = array(
+    'gif' => 'image/gif',
+    'png' => 'image/png',
+    'jpg' => 'image/jpeg',
+);
+
+ $dir = $_SERVER['DOCUMENT_ROOT'].'/media/sample_decor';
+ $cropImage = Mage::getSingleton('core/session')->getCropImage();
+?>
+<!--
+
+<div class="try_photo_wallpaper">
+ <img width="400" height="350" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);?>try1.jpg">
+ <div class="position_item chair">
+ 	<img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);?>chair1.png" alt="">
+ </div>
+  <div class="position_item sofa">
+ </div>
+  <div class="position_item table">
+ </div>
+</div> style="background: url('<?php echo $cropImage;?>') no-repeat scroll left top transparent;" <img class="wallpaper_bg" src="<?php echo $cropImage; ?>">-->
+<?php //$_productImpose = Mage::getModel('catalog/product')->load(1); ?>
+
+<?php
+$imageName = explode("/",$cropImage);
+ $image = end($imageName);
+$_imageUrl = Mage::getBaseDir('media')."/wallpaperImages/images/".$image;
+
+//var_dump(end($imageName));
+//$_imageUrl = Mage::getBaseDir('media').DS.$image;
+$imageResized = Mage::getBaseDir('media')."/wallpaperImages".DS."resized".DS.$image;
+if (!file_exists($imageResized)&&file_exists($_imageUrl)) :
+$imageObj = new Varien_Image($_imageUrl);
+$imageObj->constrainOnly(TRUE);
+$imageObj->keepAspectRatio(TRUE);
+$imageObj->keepFrame(FALSE);
+$imageObj->resize(585, 350);
+$imageObj->save($imageResized);
+endif;
+
+
+?>
+<?php $wallpaperBg = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)."wallpaperImages".DS."resized".DS.$image;?>
+	   <!-- <img src="<?php echo $wallpaperBg;?> "/>-->
+
+<div class="main_slider">
+    <div class="wallpaper_bg" style=" background: url('<?php echo $wallpaperBg;?>') repeat scroll left top transparent;" >
+	    
+           <div class="skirting"></div>
+           <div class="flooring"></div>
+    </div>
+<ul class="select_wallpaper">
+<?php
+if (is_dir($dir)) {
+    if ($dh = opendir($dir)) {
+        while (($file = readdir($dh)) !== false) { 
+        	 if(filetype($file) != "dir" ):
+				 
+				 if($file !="samples"):
+				 
+				$bk          = imagecreatefromjpeg(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'sample_decor/'.$file);
+	
+	            $type		 = exif_imagetype($cropImage);
+				
+				if($type == "1") {
+				 		$dr  =	imagecreatefromgif($cropImage);
+				}
+				else if($type == "2") {
+					  $dr	 = imagecreatefromjpeg($cropImage);
+				}
+				else if($type == "3") {
+					 $dr    =  imagecreatefrompng($cropImage);
+				}
+	    	    //$dr          = imagecreatefromjpeg($cropImage);
+			
+	            $thumb       = imagecreatetruecolor(400, 400);
+	            $wallpaper   = imagecreatetruecolor(400, 400);
+			    
+			
+			
+			    imagecopyresized($thumb, $bk, 0, 0, 0, 0, 400, 400, imagesx($bk),imagesy($bk));
+			    imagecopyresized($wallpaper, $dr, 0, 0, 0, 0, 300, 230, imagesx($dr),imagesy($dr));
+			
+			    imagecopymerge($thumb, $wallpaper, 25, 45, 0, 0, 300, 230, 100);
+			    $targetfile = $_SERVER['DOCUMENT_ROOT'].'/media/sample_decor/samples/created_'.$file;
+			    umask(000);
+			
+		//   	header('Content-type: image/jpeg');
+			imagejpeg($thumb,$targetfile);	
+			 
+				
+				  ?>
+				  
+           <li>
+		    
+           	<div class="try_photo_wallpaper">
+				 
+				 <div class="position_item">
+					<img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'sample_decor/'.$file; ?>" alt="">
+				 </div>
+			</div>
+           	
+           	<!--img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);?>sample_decor/samples/created_<?php echo $file; ?>" width="400" height="350" /-->
+           	</li>
+        <?php endif;
+endif; ?>
+		<?php }   
+        closedir($dh);
+    }
+}
+?>
+</ul>
+</div>
+<script type="text/javascript"> 
+  jQuery(document).ready(function($){
+    
+/*$('.bxslider').bxSlider({
+  //mode: 'fade',
+  minSlides: 3,
+  maxSlides: 3,
+  slideWidth: 312,
+  slideMargin: 0,
+  captions: false
+});*/
+   
+    $('.select_wallpaper').bxSlider({
+    minSlides: 1,
+    maxSlides: 1,
+    slideWidth: 530,
+    slideMargin: 0,
+    captions: false
+   });
+
+  });
+</script> 
+ 

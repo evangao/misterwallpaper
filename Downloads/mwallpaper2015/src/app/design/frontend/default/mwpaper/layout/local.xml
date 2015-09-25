@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+	<default>
+		<!-- Remove callouts and rarely used stuff -->
+		<remove name="right.poll"/>
+		<remove name="right.permanent.callout"/>
+		<remove name="left.permanent.callout"/>		
+		<remove name="paypal.partner.right.logo" />
+		<reference name="head">
+	        <action method="addItem"><type>skin_css</type><name>css/wallpaper.css</name></action>
+	        <action method="addItem"><type>skin_css</type><name>css/skitter.styles.css</name></action>
+	        <action method="addItem"><type>skin_css</type><name>css/jquery.bxslider.css</name></action>
+	        <!--<action method="addItem"><type>skin_js</type><name>js/top.js</name></action>-->
+	        <action method="addItem"><type>skin_js</type><name>js/jquery.bxslider.js</name></action>
+	        <action method="addItem"><type>skin_js</type><name>js/jquery.skitter.js</name></action>
+	        <action method="addItem"><type>skin_js</type><name>js/css_browser_selector.js</name></action>
+	        <action method="addItem"><type>skin_js</type><name>js/custom_mw.js</name></action>
+	     </reference>   
+	</default>
+</layout>		

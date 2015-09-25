@@ -1,0 +1,86 @@
+<?php
+/**
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * versions in the future. If you wish to customize this extension for your
+ * needs please refer to http://www.zeonsolutions.com for more information.
+ *
+ * @category    QAS
+ * @package     QAS_AddressVerification
+ * @copyright   Copyright (c) 2012 Zeon Solutions, Inc. All Rights Reserved.(http://www.zeonsolutions.com)
+ * @license     http://www.zeonsolutions.com/license/
+ */
+?>
+<?php $helper = Mage::helper('qas_addressverification'); ?>
+<?php if ( $helper->getIsEnabled() && $helper->getUsername() && $helper->getPassword() && $helper->getWsdlUrl() && $helper->getSearchEngine() && ( $helper->getCountryDataset('au') || $helper->getCountryDataset('nz') ) ): ?>
+<div id="loading-mask" style="display:none;">
+    <p class="loader" id="loading_mask_loader"><img src="<?php echo $this->getSkinUrl('images/qas/ajax-loader.gif') ?>" alt="<?php echo $this->helper('qas_addressverification')->__('Loading...') ?>" /><br /><?php echo $this->helper('qas_addressverification')->__('Please wait...') ?></p>
+</div>
+
+<script type="text/javascript">
+
+Event.observe(window, 'load', function() {
+
+    var container = $$('body')[0];
+    //container.setStyle({opacity:.5});
+    //Element.show('loading-mask');
+    
+    new Ajax.Request(
+            IS_DO_CAN_SEARCH,
+            {
+                method: 'post',
+                onComplete: this.onComplete,
+                onFailure: function(response){
+                    alert('An error occurred while processing your request');
+                        container.setStyle({opacity:1});
+                        Element.hide('loading-mask');
+                    this.onComplete;
+                },
+                onSuccess: function(response){
+                    if (response.responseText == 'true') {
+
+                        if (IS_ADDRESS_BOOK) {
+                        $('street_1').setAttribute('autocomplete','off');
+                        $('street_1').up().insert('<div id="address_autocomplete" class="address-autocomplete" style="position:relative!important;"></div>');
+                        $('street_1').up().insert('<div id="aindicator" class="indicator" style="display:none;"><img src="<?php echo $this->getSkinUrl('images/qas/indicator.gif')?>" alt="Loading..." /></div>');
+                        //<![CDATA[
+                            var addressForm = new AddressVerification('form-validate', 'street_1');
+                            addressForm.initAutocomplete(PICKLIST_URL, 'address_autocomplete');
+                        //]]>
+                        //
+                        }
+                        
+                        if (IS_CHECKOUT) {
+                        $('billing:street1').setAttribute('autocomplete','off');
+                        $('billing:street1').up().insert('<div id="billing_autocomplete" class="address-autocomplete" style="position:relative!important;"></div>');
+                        $('billing:street1').up().insert('<div id="bindicator" class="indicator" style="display:none;"><img src="<?php echo $this->getSkinUrl('images/qas/indicator.gif')?>" alt="Loading..." /></div>');
+                        //<![CDATA[
+                            var billingAddressForm = new BillingAddressVerification('co-billing-form', 'billing:street1');
+                            billingAddressForm.initAutocomplete(PICKLIST_URL, 'billing_autocomplete');
+                        //]]>
+                        //
+                        
+                        $('shipping:street1').setAttribute('autocomplete','off');
+                        $('shipping:street1').up().insert('<div id="shipping_autocomplete" class="address-autocomplete" style="position:relative!important;"></div>');
+                        $('shipping:street1').up().insert('<div id="sindicator" class="indicator" style="display:none;"><img src="<?php echo $this->getSkinUrl('images/qas/indicator.gif')?>" alt="Loading..." /></div>');
+                        //<![CDATA[
+                            var shippingAddressForm = new ShippingAddressVerification('co-shipping-form', 'shipping:street1');
+                            shippingAddressForm.initAutocomplete(PICKLIST_URL, 'shipping_autocomplete');
+                        //]]>
+                        //
+                        }
+                        container.setStyle({opacity:1});
+                        Element.hide('loading-mask');
+                    } else {
+                        container.setStyle({opacity:1});
+                        Element.hide('loading-mask');
+                    }
+                }.bind(this)
+            }
+        )
+});
+
+</script>
+<?php endif; ?>

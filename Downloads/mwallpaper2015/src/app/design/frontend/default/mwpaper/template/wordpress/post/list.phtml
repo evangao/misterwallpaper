@@ -1,0 +1,41 @@
+<?php
+/**
+ * @category    Fishpig
+ * @package     Fishpig_Wordpress
+ * @license     http://fishpig.co.uk/license.txt
+ * @author      Ben Tideswell <help@fishpig.co.uk>
+ */
+?>
+<?php $posts = $this->getPosts() ?>
+<?php if (count($posts) > 0): ?>
+	<?php if ($this->helper('wordpress/plugin_shareThis')->canDisplayOnPost()): ?>
+		<?php echo $this->helper('wordpress/plugin_shareThis')->getJavascriptHtml() ?>
+	<?php endif; ?>
+	<?php $idea_page  = Mage::getBaseUrl()."blog/category/ideas/";?>
+	<?php if($idea_page == $this->helper('core/url')->getCurrentUrl()) { ?>
+	<div class="ideas">
+			<?php foreach($posts as $post): ?>
+				
+					<?php echo $this->getPostRenderer($post)->toHtml() ?>
+				
+			<?php endforeach; ?>
+	</div>
+	
+	<?php echo $this->getPagerHtml() ?>
+	<?php }else{ ?>	
+	
+	<div class="blog-home">
+	<div class="post-list">
+		<ul id="post-list">
+			<?php foreach($posts as $post): ?>
+				<li class="item">
+					<?php echo $this->getPostRenderer($post)->toHtml() ?>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+		<script type="text/javascript">decorateList($('post-list'));</script>
+		<?php echo $this->getPagerHtml() ?>
+	</div>
+	</div>
+	<?php } ?>
+<?php endif; ?>

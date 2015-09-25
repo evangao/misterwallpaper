@@ -1,0 +1,199 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php $_invoice = $this->getInvoice() ?>
+<?php $_order   = $this->getOrder() ?>
+<?php if ($_invoice && $_order): ?>
+<?php if($_order->getBillingAddress()->getCountryId()=="AU"):?>
+		<div class="msg_heading_inner" style="text-align: center;margin:5px auto;"><!-- container_inner starts -->        
+			Horse Feathers Pty Ltd (TA Mister Wallpaper)<br />
+			Level 2/608 Harris Street · Ultimo · NSW· 2007<br />
+			ABN 46145527439 · info@misterwallpaper.com.au    
+		</div><!-- container ends -->
+		<div class="msg_container" style="float:left;width:100%; background:#ffffff;"><!-- msg -->
+			<div class="msg_container_inner" style="margin: 10px auto; width: 730px;"><!-- msg -->
+				<div style="text-align:left; margin:60px auto;">
+					<?php echo $_order->getBillingAddress()->getFirstname()." ".$_order->getBillingAddress()->getLastname() ?><br />
+					<?php echo $_order->getBillingAddress()->getStreet(1)?><br />
+					<?php if($_order->getBillingAddress()->getStreet(2)!=""){?>
+					<?php echo $_order->getBillingAddress()->getStreet(2)?><br />
+					<?php }?>
+					
+					<?php echo $_order->getBillingAddress()->getCity()?> <?php echo $_order->getBillingAddress()->getRegion()?> <?php echo $_order->getBillingAddress()->getPostcode()?><br />
+					<?php echo Mage::app()->getLocale()->getCountryTranslation($_order->getBillingAddress()->getCountryId());?><br />
+				</div>
+				<div style="text-align:right;">
+					 <?php echo date("d.m.Y",strtotime($_order->getCreatedAt())) ?><br />
+					order #<?php echo $_order->getIncrementId()?><br />
+					Tax Invoice #<?php echo $_invoice->getIncrementId()?>
+				</div>
+				<div style="padding:5px;">
+					Custom printed wallpaper					
+				</div>
+                <div style="min-height:650px;border-bottom:1px solid #231f20; margin:0 0 80px 0;">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin:35px 0 0 0;">
+                    <colgroup>
+                    	<col width="1%" />
+                        <col width="" />
+                        <col width="20%" />
+                    </colgroup>
+                    <tbody>
+						  <tr>
+							<td style="padding:7px;border-bottom:2px solid #231f20;">Item</td>
+							<td style="padding:7px;border-bottom:2px solid #231f20;">Description</td>
+							<td style="padding:7px;border-bottom:2px solid #231f20;">&nbsp;</td>
+						  </tr>
+						<?php $i=0; foreach ($_invoice->getAllItems() as $_item): ?>
+						<?php if($_item->getOrderItem()->getParentItem()) continue; else $i++; ?>
+							<tr>
+								<td style="padding:7px;" valign="top"><?php echo $i;?></td>
+								<?php echo $this->getItemHtml($_item) ?>
+							</tr>	
+						<?php endforeach; ?>
+							<tr>
+								<td style="padding:7px;" valign="top"><?php echo ++$i;?></td>
+								<td style="padding:7px;">
+									Shipping
+								</td>
+								<td style="padding:7px;" valign="bottom" align="center"> <?php echo $_order->formatPriceTxt($_order->getShippingAmount()); ?></td>
+							</tr>
+                      </tbody>
+					  
+                    </table>
+					<table width="100%" border="0" cellspacing="0" cellpadding="0"  style="margin:50px 0 0 0;">
+                    <colgroup>
+                    	<col width="30%" />
+                        <col width="20%" />
+                        <col width="30%" />
+                    </colgroup>
+                    <tbody>                     
+					  <tr>
+                        <td colspan="2" style="padding:7px 0 0 7px;">
+                        	Total 
+                        </td>
+                        <td>&nbsp;</td>
+                        <td style="padding:7px 0 0 7px;border-top:2px solid #231f20;" valign="bottom" align="center"> 
+                        	<?php echo $_order->formatPriceTxt($_order->getSubtotal() + $_order->getShippingAmount()); ?> 
+                        </td>
+                      </tr>                       
+					  <tr>
+                        <td colspan="2" style="padding:0 7px ;">
+							includes 10 % GST
+                        </td>
+                        <td>&nbsp;</td>
+                        <td style="padding:0 7px;" valign="bottom" align="center">								
+                            <?php //echo $_order->formatPriceTxt((10*($_order->getSubtotal()))/100);?>
+                            <?php echo $_order->formatPriceTxt($_order->getTaxAmount());?>
+                        </td>
+                      </tr>
+                      </tbody>                        
+                    </table>
+				</div>
+			</div>
+		</div>
+		
+<?php else:?>
+		<div class="msg_heading_inner" style="text-align: center;margin:5px auto;"><!-- container_inner starts -->        
+			Horse Feathers Pty Ltd (TA Mister Wallpaper)<br />
+			Level 2/608 Harris Street · Ultimo · NSW· 2007<br />
+			Australia · info@misterwallpaper.com.au
+		</div><!-- container ends --> 
+		<div class="msg_container" style="float:left;width:100%; background:#ffffff;"><!-- msg -->
+			<div class="msg_container_inner" style="margin: 10px auto; width: 730px;"><!-- msg -->
+				<div style="text-align:left; margin:60px auto;">
+					<?php echo $_order->getBillingAddress()->getFirstname()." ".$_order->getBillingAddress()->getLastname() ?><br />
+					<?php echo $_order->getBillingAddress()->getStreet(1)?><br />
+					<?php if($_order->getBillingAddress()->getStreet(2)!=""){?>
+					<?php echo $_order->getBillingAddress()->getStreet(2)?><br />
+					<?php }?>
+					
+					<?php echo $_order->getBillingAddress()->getCity()?> <?php echo $_order->getBillingAddress()->getRegion()?> <?php echo $_order->getBillingAddress()->getPostcode()?><br />
+					<?php echo Mage::app()->getLocale()->getCountryTranslation($_order->getBillingAddress()->getCountryId());?><br />
+				</div>
+				<div style="text-align:right;">
+					 <?php echo date("d.m.Y",strtotime($_order->getCreatedAt())) ?><br />
+					order #<?php echo $_order->getIncrementId()?><br />
+					Tax Invoice #<?php echo $_invoice->getIncrementId()?>
+				</div>
+				<div style="padding:5px;">
+					Custom printed wallpaper					
+				</div>
+                <div style="min-height:650px;border-bottom:1px solid #231f20; margin:0 0 80px 0;">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin:35px 0 0 0;">
+                    <colgroup>
+                    	<col width="1%" />
+                        <col width="" />
+                        <col width="20%" />
+                    </colgroup>
+                    <tbody>
+						  <tr>
+							<td style="padding:7px;border-bottom:2px solid #231f20;">Item</td>
+							<td style="padding:7px;border-bottom:2px solid #231f20;">Description</td>
+							<td style="padding:7px;border-bottom:2px solid #231f20;">&nbsp;</td>
+						  </tr>
+						<?php $i=0; foreach ($_invoice->getAllItems() as $_item): ?>
+						<?php if($_item->getOrderItem()->getParentItem()) continue; else $i++; ?>
+							<tr>
+								<td style="padding:7px;" valign="top"><?php echo $i;?></td>
+								<?php echo $this->getItemHtml($_item) ?>
+							</tr>	
+						<?php endforeach; ?>
+							<tr>
+								<td style="padding:7px;" valign="top"><?php echo ++$i;?></td>
+								<td style="padding:7px;">
+									Shipping
+								</td>
+								<td style="padding:7px;" valign="bottom" align="center"> <?php echo $_order->formatPriceTxt($_order->getShippingAmount()); ?></td>
+							</tr>
+                      </tbody>
+					  
+                    </table>
+					<table width="100%" border="0" cellspacing="0" cellpadding="0"  style="margin:50px 0 0 0;">
+                    <colgroup>
+                    	<col width="30%" />
+                        <col width="20%" />
+                        <col width="30%" />
+                    </colgroup>
+                    <tbody>                     
+					  <tr>
+                        <td colspan="2" style="padding:7px 0 0 7px;">
+                        	Total 
+                        </td>
+                        <td>&nbsp;</td>
+                        <td style="padding:7px 0 0 7px;border-top:2px solid #231f20;" valign="bottom" align="center"> 
+                        	<?php echo $_order->formatPriceTxt($_order->getSubtotal() + $_order->getShippingAmount()); ?> 
+                        </td>
+                      </tr>
+                    </tbody>                        
+                    </table>
+					 
+				
+					
+				</div>
+			</div>
+		</div>
+<?php endif;?>		
+<?php endif; ?>
